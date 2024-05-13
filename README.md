@@ -1,5 +1,7 @@
 # Wildlife Pics
 
+<!--Headings-->
+
 ##Description
 
 Wildlife Pics is a web application that allows users to organize their wildlife photos, manage accessibility, and compete in public rating competition.
