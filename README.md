@@ -6,13 +6,6 @@
 
 Wildlife Pics is a web application that allows users to organize their wildlife photos, manage accessibility, and compete in public rating competition.
 
-## Wireframe
-
-### Home
-
-![image](https://github.com/kcweise/wildlife/assets/157924536/cae3b3ac-8b54-4fb3-80dc-640a63446674)
-
-
 ## User Stories
 
 1. Anyone can go to the home site to see current public rating competition.
@@ -33,5 +26,29 @@ Wildlife Pics is a web application that allows users to organize their wildlife 
     
 9. Users can enter competition weekly for best wildlife photo.
 
+
+## Wireframe
+
+### Home
+
+![planning/homepage.png](planning/homepage.png)
+
+### About
+
+![alt text](planning/aboutpage.png)
+
+### User Page
+
+![alt text](planning/userpage.png)
+
+### React Tree
+
+![alt text](planning/react-tree.png)
+
+### React Routes
+
+![alt text](planning/react-routes.png)
+
+### 
 
 
