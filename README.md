@@ -49,6 +49,6 @@ Wildlife Pics is a web application that allows users to organize their wildlife 
 
 ![alt text](planning/react-routes.png)
 
-### 
+### Database Schema
 
-
+![alt text](planning/database-schema.png)
