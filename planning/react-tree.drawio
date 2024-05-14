@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="gGCnoPv-f7fdcyJBy2vh" name="Page-1">
-        <mxGraphModel dx="1372" dy="779" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1132" dy="702" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#7B7A79" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -10,7 +10,7 @@
                 <mxCell id="100" style="edgeStyle=none;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="32" target="85" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="32" value="Home" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;" parent="1" vertex="1">
+                <mxCell id="32" value="Home" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;gradientColor=none;fillStyle=auto;swimlaneFillColor=default;" parent="1" vertex="1">
                     <mxGeometry x="270" y="10" width="280" height="280" as="geometry"/>
                 </mxCell>
                 <mxCell id="33" value="Home" style="whiteSpace=wrap;html=1;" parent="32" vertex="1">
@@ -36,7 +36,7 @@
                 <mxCell id="45" value="Comp card" style="whiteSpace=wrap;html=1;" parent="32" vertex="1">
                     <mxGeometry x="160" y="220" width="100" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="47" value="About" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;" parent="1" vertex="1">
+                <mxCell id="47" value="About" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;swimlaneFillColor=default;" parent="1" vertex="1">
                     <mxGeometry x="150" y="310" width="140" height="190" as="geometry"/>
                 </mxCell>
                 <mxCell id="93" value="About&amp;nbsp;&lt;br&gt;Data" style="whiteSpace=wrap;html=1;" parent="47" vertex="1">
@@ -57,7 +57,7 @@
                 <mxCell id="102" style="edgeStyle=none;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.45;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="53" target="67" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="53" value="Login" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;" parent="1" vertex="1">
+                <mxCell id="53" value="Login" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;swimlaneFillColor=default;" parent="1" vertex="1">
                     <mxGeometry x="340" y="310" width="140" height="190" as="geometry"/>
                 </mxCell>
                 <mxCell id="54" value="Login Render" style="whiteSpace=wrap;html=1;" parent="53" vertex="1">
@@ -78,7 +78,7 @@
                         <mxPoint x="390" y="655" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="60" value="Register User" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;" parent="1" vertex="1">
+                <mxCell id="60" value="Register User" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;swimlaneFillColor=default;" parent="1" vertex="1">
                     <mxGeometry x="200" y="560" width="140" height="190" as="geometry"/>
                 </mxCell>
                 <mxCell id="61" value="Register Render" style="whiteSpace=wrap;html=1;" parent="60" vertex="1">
@@ -90,7 +90,7 @@
                 <mxCell id="63" value="" style="edgeStyle=elbowEdgeStyle;elbow=vertical;html=1;rounded=1;curved=0;sourcePerimeterSpacing=0;targetPerimeterSpacing=0;startSize=6;endSize=6;" parent="60" source="61" target="62" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="67" value="User Page" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;" parent="1" vertex="1">
+                <mxCell id="67" value="User Page" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;swimlaneFillColor=default;" parent="1" vertex="1">
                     <mxGeometry x="390" y="530" width="280" height="280" as="geometry"/>
                 </mxCell>
                 <mxCell id="68" value="User Page" style="whiteSpace=wrap;html=1;" parent="67" vertex="1">
@@ -116,7 +116,7 @@
                 <mxCell id="78" value="Picture Card" style="whiteSpace=wrap;html=1;" parent="67" vertex="1">
                     <mxGeometry x="160" y="220" width="100" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="85" value="User Lookup" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;" parent="1" vertex="1">
+                <mxCell id="85" value="User Lookup" style="swimlane;startSize=20;horizontal=1;childLayout=treeLayout;horizontalTree=0;resizable=0;containerType=tree;fontSize=12;swimlaneFillColor=default;" parent="1" vertex="1">
                     <mxGeometry x="550" y="310" width="140" height="190" as="geometry"/>
                 </mxCell>
                 <mxCell id="86" value="User lookup Render" style="whiteSpace=wrap;html=1;" parent="85" vertex="1">
