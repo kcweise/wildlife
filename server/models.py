@@ -36,6 +36,8 @@ class Photo(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     date_time = db.Column(db.String)
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=True)
     photo_url = db.Column(db.String, nullable=False)
     
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
@@ -48,3 +50,37 @@ class PhotoAccess(db.Model, SerializerMixin):
     
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))    
     photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
+    
+class CompetitionPhoto(db.Model, SerializerMixin):
+    __tablename__="competition_photos"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    votes = db.Column(db.Integer, nullable=False)
+    
+    competition_id = db.Column(db.Integer, db.ForeignKey("competition.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))    
+    photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
+    
+class Competition(db.Model, SerializerMixin):
+    __tablename__="competitions"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    start_date = db.Column(db.String, nullable=False)
+    end_date = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    
+    winner_id = db.Column(db.Intger, db.ForeignKey("competition_photos.id"), nullable=True, default=None)
+    
+    
+class Rating(db.Model, SerializerMixin):
+    __tablename__="ratings"
+    
+    id = db.Column(db.Integer, primary_key=True)
+    rating = db.Column(db.Integer, nullable=False)
+    comment = db.Column(db.String, nullable=True)
+    created_at = db.Column(db.Datetime, nullable=False, default =datetime.datetime.now)
+    
+    comp_photo_id = db.Column(db.Integer, db.ForeignKey("competition_photos.id"))
+    user_rated_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+        
