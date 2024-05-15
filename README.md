@@ -18,11 +18,9 @@ Wildlife Pics is a web application that allows users to organize their wildlife 
    
 5. Users can CRUD their photos.
     
-6. Users can CRUD their cameras.
-    
 7. Users can look up other users request access to other users photos.
     
-8. Users can allow access to other users photos or cameras.
+8. Users can allow access to other users photos.
     
 9. Users can enter competition weekly for best wildlife photo.
 
