@@ -1,6 +1,6 @@
 
 
-from config import db, SerializerMixin, validates
+from config import db, SerializerMixin, validates, re
 
 
 
@@ -23,3 +23,18 @@ class User (db.Model, SerializerMixin):
     
     #Serializer Rules
     serialize_rules = ("-user_photos.users","-user_access.users","-user_comp_photos.users","-user_posted_ratings.users",)
+    
+    @validates('phone')
+    def validate_phone(self, key, value):
+        phone_regex = r'^\(\d{3}\)-\d{3}-\d{4}$'
+        if not re.match(phone_regex, value):
+            raise ValueError("Invalid phone number format. Please use (xxx)-xxx-xxxx format.")
+        return value
+    
+    @validates ('email')
+    def validate_email(self, key, value):
+        email_regex = r'^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$'
+        if not re.match(email_regex, value):
+            raise ValueError("Invalid email address")
+        return value
+    
