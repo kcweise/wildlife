@@ -29,7 +29,13 @@ class User (db.Model, SerializerMixin):
     username = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False, unique=True) 
+    email = db.Column(db.String, nullable=False, unique=True)
+    
+    #Relationships
+    user_photos = db.relationship("Photo", back_populates= "users")
+    user_access = db.relationship("PhotoAccess", back_populates = "users")
+    user_comp_photos = db.relationship("CompetitionPhoto", back_populates= "users")
+    user_posted_ratings = db.relationship("Rating", back_populates = "users")
     
 class Photo(db.Model, SerializerMixin):
     __tablename__="photos"
@@ -40,7 +46,13 @@ class Photo(db.Model, SerializerMixin):
     description = db.Column(db.String, nullable=True)
     photo_url = db.Column(db.String, nullable=False)
     
+    #Foreign Keys
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    
+    #Relationships
+    user = db.relationship("User", back_populates="user_photos")
+    photo_access = db.relationship("PhotoAccess", back_populates="photo")    
+    competition_photo = db.relationship("CompetitionPhoto", back_populates="photo", uselist=False)
     
 class PhotoAccess(db.Model, SerializerMixin):
     __tablename__="photo_access"
@@ -48,8 +60,13 @@ class PhotoAccess(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     access_level = db.Column(db.String)
     
+    #Foreign Keys
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))    
     photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
+    
+    #Relationships
+    user = db.relationship("User", back_populates = "user_access")
+    photo = db.relationship("Photo", back_populates="photo_access")
     
 class CompetitionPhoto(db.Model, SerializerMixin):
     __tablename__="competition_photos"
@@ -57,9 +74,16 @@ class CompetitionPhoto(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     votes = db.Column(db.Integer, nullable=False)
     
+    #Foreign Keys
     competition_id = db.Column(db.Integer, db.ForeignKey("competition.id"))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))    
     photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
+    
+    #Relationships
+    user = db.relationship("User", back_populates = "user_comp_photos")
+    photo = db.relationship("Photo", back_populates="competition_photo")
+    competition = db.relationship("Competition", back_populates = "competition_photos")
+    competition_photo_ratings = db.relationship("Rating", back_populates = "competition_photos")
     
 class Competition(db.Model, SerializerMixin):
     __tablename__="competitions"
@@ -70,7 +94,11 @@ class Competition(db.Model, SerializerMixin):
     end_date = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
     
-    winner_id = db.Column(db.Intger, db.ForeignKey("competition_photos.id"), nullable=True, default=None)
+    #Foreign Keys
+    winner_id = db.Column(db.Integer, db.ForeignKey("competition_photos.id"), nullable=True, default=None)
+    
+    #Relationships
+    competition_photos = db.relationship("CompetitionPhoto", back_populates="competition")
     
     
 class Rating(db.Model, SerializerMixin):
@@ -79,8 +107,13 @@ class Rating(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String, nullable=True)
-    created_at = db.Column(db.Datetime, nullable=False, default =datetime.datetime.now)
+    created_at = db.Column(db.DateTime, nullable=False, default =datetime.datetime.now)
     
+    #Foreign Keys
     comp_photo_id = db.Column(db.Integer, db.ForeignKey("competition_photos.id"))
     user_rated_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    
+    #Relationships
+    user_rated = db.relationship("User", back_populates= "user_posted_ratings")
+    competition_photos = db.relationship("CompetitionPhoto", back_populates = "competition_photo_ratings")
         
