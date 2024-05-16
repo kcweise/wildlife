@@ -1,5 +1,5 @@
 
-from config import db, SerializerMixin, validates
+from config import db, SerializerMixin, validates, datetime
 
 
 class Rating(db.Model, SerializerMixin):

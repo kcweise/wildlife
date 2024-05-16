@@ -1,6 +1,6 @@
 
 
-from config import db, SerializerMixin, validates, re
+from config import db, SerializerMixin, validates, re, datetime
 
 
 
@@ -14,6 +14,7 @@ class User (db.Model, SerializerMixin):
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
+    created_date = db.Column(db.DateTime, default=datetime.datetime.now )
     
     #Relationships
     user_photos = db.relationship("Photo", back_populates="users", cascade="all, delete orphan")

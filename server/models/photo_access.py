@@ -18,3 +18,9 @@ class PhotoAccess(db.Model, SerializerMixin):
     
     #Serializer Rules
     serialize_rules = ("-user.user_access","-photo.photo_access",)
+    
+    @validates('access_level')
+    def access_val(self, key, value):
+        if 0>value>2:
+            ValueError("Invalid access")
+        return value
