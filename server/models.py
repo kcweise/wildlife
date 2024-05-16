@@ -32,10 +32,10 @@ class User (db.Model, SerializerMixin):
     email = db.Column(db.String, nullable=False, unique=True)
     
     #Relationships
-    user_photos = db.relationship("Photo", back_populates= "users")
-    user_access = db.relationship("PhotoAccess", back_populates = "users")
-    user_comp_photos = db.relationship("CompetitionPhoto", back_populates= "users")
-    user_posted_ratings = db.relationship("Rating", back_populates = "users")
+    user_photos = db.relationship("Photo", back_populates="users")
+    user_access = db.relationship("PhotoAccess", back_populates="users")
+    user_comp_photos = db.relationship("CompetitionPhoto", back_populates="users")
+    user_posted_ratings = db.relationship("Rating", back_populates="users")
     
 class Photo(db.Model, SerializerMixin):
     __tablename__="photos"
@@ -65,7 +65,7 @@ class PhotoAccess(db.Model, SerializerMixin):
     photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
     
     #Relationships
-    user = db.relationship("User", back_populates = "user_access")
+    user = db.relationship("User", back_populates="user_access")
     photo = db.relationship("Photo", back_populates="photo_access")
     
 class CompetitionPhoto(db.Model, SerializerMixin):
@@ -80,10 +80,10 @@ class CompetitionPhoto(db.Model, SerializerMixin):
     photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
     
     #Relationships
-    user = db.relationship("User", back_populates = "user_comp_photos")
+    user = db.relationship("User", back_populates="user_comp_photos")
     photo = db.relationship("Photo", back_populates="competition_photo")
-    competition = db.relationship("Competition", back_populates = "competition_photos")
-    competition_photo_ratings = db.relationship("Rating", back_populates = "competition_photos")
+    competition = db.relationship("Competition", back_populates="competition_photos")
+    competition_photo_ratings = db.relationship("Rating", back_populates="competition_photos")
     
 class Competition(db.Model, SerializerMixin):
     __tablename__="competitions"
@@ -107,13 +107,13 @@ class Rating(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default =datetime.datetime.now)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
     
     #Foreign Keys
     comp_photo_id = db.Column(db.Integer, db.ForeignKey("competition_photos.id"))
     user_rated_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     
     #Relationships
-    user_rated = db.relationship("User", back_populates= "user_posted_ratings")
-    competition_photos = db.relationship("CompetitionPhoto", back_populates = "competition_photo_ratings")
+    user_rated = db.relationship("User", back_populates="user_posted_ratings")
+    competition_photos = db.relationship("CompetitionPhoto", back_populates="competition_photo_ratings")
         

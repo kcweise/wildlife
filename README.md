@@ -54,3 +54,13 @@ Wildlife Pics is a web application that allows users to organize their wildlife 
 ### API Routes
 
 ![alt text](planning/api_routes.png)
+
+### Trello Board
+
+![alt text](planning/trello.png)
+
+### Stretch Goals
+
+1. Add automatic email and/or text message notification of winning competition
+2. Add direct photo storage with blob.
+3. Add autonomous competition creation.
