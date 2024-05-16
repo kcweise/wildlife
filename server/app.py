@@ -8,7 +8,9 @@ from flask_restful import Resource
 
 # Local imports
 from config import app, db, api
-# Add your model imports
+
+#Importing models triggers __init__.py to register all imports within
+import models
 
 
 # Views go here!
