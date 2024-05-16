@@ -37,12 +37,16 @@ class User (db.Model, SerializerMixin):
     user_comp_photos = db.relationship("CompetitionPhoto", back_populates="users", cascade="all, delete orphan")
     user_posted_ratings = db.relationship("Rating", back_populates="users", cascade="all, delete orphan")
     
+    #Serializer Rules
+    serialize_rules = ("-user_photos.users","-user_access.users","-user_comp_photos.users","-user_posted_ratings.users",)
+    
 class Photo(db.Model, SerializerMixin):
     __tablename__="photos"
     
     id = db.Column(db.Integer, primary_key=True)
     date_time = db.Column(db.String)
-    title = db.Column(db.String, nullable=False)
+    title = db.Column(db.String, nullable=True)
+    animal = db.Column(db.String, nullable=True )
     description = db.Column(db.String, nullable=True)
     photo_url = db.Column(db.String, nullable=False)
     
@@ -53,6 +57,9 @@ class Photo(db.Model, SerializerMixin):
     user = db.relationship("User", back_populates="user_photos")
     photo_access = db.relationship("PhotoAccess", back_populates="photo", cascade="all, delete orphan")    
     competition_photo = db.relationship("CompetitionPhoto", back_populates="photo", uselist=False, cascade="all, delete orphan")
+    
+    #Serializer Rules
+    serialize_rules = ("-user.user_photos", "-photo_access.photo","-competition_photo.photo",)
     
 class PhotoAccess(db.Model, SerializerMixin):
     __tablename__="photo_access"
@@ -68,11 +75,14 @@ class PhotoAccess(db.Model, SerializerMixin):
     user = db.relationship("User", back_populates="user_access")
     photo = db.relationship("Photo", back_populates="photo_access")
     
+    #Serializer Rules
+    serialize_rules = ("-user.user_access","-photo.photo_access",)
+    
 class CompetitionPhoto(db.Model, SerializerMixin):
     __tablename__="competition_photos"
     
     id = db.Column(db.Integer, primary_key=True)
-    votes = db.Column(db.Integer, nullable=False)
+    votes = db.Column(db.Integer, nullable=False, default=None)
     
     #Foreign Keys
     competition_id = db.Column(db.Integer, db.ForeignKey("competition.id"))
@@ -84,6 +94,9 @@ class CompetitionPhoto(db.Model, SerializerMixin):
     photo = db.relationship("Photo", back_populates="competition_photo")
     competition = db.relationship("Competition", back_populates="competition_photos", cascade="all, delete orphan")
     competition_photo_ratings = db.relationship("Rating", back_populates="competition_photos", cascade="all, delete orphan")
+    
+    #Serializer Rules
+    serialize_rules = ("-user.user_comp_photos","-photo.competition_photo", "-competition.competition_photos", "-competition_photo_ratings.competition_photos", )
     
 class Competition(db.Model, SerializerMixin):
     __tablename__="competitions"
@@ -99,6 +112,9 @@ class Competition(db.Model, SerializerMixin):
     
     #Relationships
     competition_photos = db.relationship("CompetitionPhoto", back_populates="competition", cascade="all, delete orphan")
+    
+    #Serializer Rules
+    serialize_rules = ("-competition_photos.competition", )
     
     
 class Rating(db.Model, SerializerMixin):
@@ -116,4 +132,7 @@ class Rating(db.Model, SerializerMixin):
     #Relationships
     user_rated = db.relationship("User", back_populates="user_posted_ratings")
     competition_photos = db.relationship("CompetitionPhoto", back_populates="competition_photo_ratings")
+    
+    #Serializer Rules
+    serialize_rules = ("-user_rated.user_posted_ratings", "-competition_photos.competition_photo_ratings", )
         
