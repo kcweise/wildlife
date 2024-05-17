@@ -8,7 +8,7 @@ class Rating(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     
     #Foreign Keys
     comp_photo_id = db.Column(db.Integer, db.ForeignKey("competition_photos.id"))

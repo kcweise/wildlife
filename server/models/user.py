@@ -14,13 +14,13 @@ class User (db.Model, SerializerMixin):
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
-    created_date = db.Column(db.DateTime, default=datetime.datetime.now )
+    created_date = db.Column(db.DateTime, default=datetime.now )
     
     #Relationships
-    user_photos = db.relationship("Photo", back_populates="users", cascade="all, delete orphan")
-    user_access = db.relationship("PhotoAccess", back_populates="users", cascade="all, delete orphan")
-    user_comp_photos = db.relationship("CompetitionPhoto", back_populates="users", cascade="all, delete orphan")
-    user_posted_ratings = db.relationship("Rating", back_populates="users", cascade="all, delete orphan")
+    user_photos = db.relationship("Photo", back_populates="users", cascade="all, delete-orphan")
+    user_access = db.relationship("PhotoAccess", back_populates="users", cascade="all, delete-orphan")
+    user_comp_photos = db.relationship("CompetitionPhoto", back_populates="users", cascade="all, delete-orphan")
+    user_posted_ratings = db.relationship("Rating", back_populates="users", cascade="all, delete-orphan")
     
     #Serializer Rules
     serialize_rules = ("-user_photos.users","-user_access.users","-user_comp_photos.users","-user_posted_ratings.users",)

@@ -6,11 +6,11 @@ class PhotoAccess(db.Model, SerializerMixin):
     __tablename__="photo_access"
     
     id = db.Column(db.Integer, primary_key=True)
-    access_level = db.Column(db.String)
+    access_level = db.Column(db.Integer, default=0)
     
     #Foreign Keys
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))    
-    photo_id = db.Column(db.Integer, db.ForeignKey("photo.id"))
+    photo_id = db.Column(db.Integer, db.ForeignKey("photos.id"))
     
     #Relationships
     user = db.relationship("User", back_populates="user_access")

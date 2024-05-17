@@ -16,7 +16,7 @@ class Competition(db.Model, SerializerMixin):
     winner_id = db.Column(db.Integer, db.ForeignKey("competition_photos.id"), nullable=True, default=None)
     
     #Relationships
-    competition_photos = db.relationship("CompetitionPhoto", back_populates="competition", cascade="all, delete orphan")
+    competition_photos = db.relationship("CompetitionPhoto", back_populates="competition", cascade="all, delete-orphan")
     
     #Serializer Rules
     serialize_rules = ("-competition_photos.competition", )
