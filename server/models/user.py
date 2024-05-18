@@ -1,7 +1,8 @@
 
-
-from config import db, SerializerMixin, validates, re, datetime
-
+from config import db
+from sqlalchemy_serializer import SerializerMixin
+from datetime import datetime, timedelta
+from sqlalchemy.orm import validates
 
 
 class User (db.Model, SerializerMixin):
@@ -17,10 +18,10 @@ class User (db.Model, SerializerMixin):
     created_date = db.Column(db.DateTime, default=datetime.now )
     
     #Relationships
-    user_photos = db.relationship("Photo", back_populates="users", cascade="all, delete-orphan")
-    user_access = db.relationship("PhotoAccess", back_populates="users", cascade="all, delete-orphan")
-    user_comp_photos = db.relationship("CompetitionPhoto", back_populates="users", cascade="all, delete-orphan")
-    user_posted_ratings = db.relationship("Rating", back_populates="users", cascade="all, delete-orphan")
+    user_photos = db.relationship("Photo", back_populates="user", cascade="all, delete-orphan")
+    user_access = db.relationship("PhotoAccess", back_populates="user", cascade="all, delete-orphan")
+    user_comp_photos = db.relationship("CompetitionPhoto", back_populates="user", cascade="all, delete-orphan")
+    user_posted_ratings = db.relationship("Rating", back_populates="user", cascade="all, delete-orphan")
     
     #Serializer Rules
     serialize_rules = ("-user_photos.users","-user_access.users","-user_comp_photos.users","-user_posted_ratings.users",)

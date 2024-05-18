@@ -1,7 +1,7 @@
-
-from config import db, SerializerMixin, validates, datetime
-
-
+from config import db
+from sqlalchemy_serializer import SerializerMixin
+from datetime import datetime, timedelta
+from sqlalchemy.orm import validates
 
 class Competition(db.Model, SerializerMixin):
     __tablename__="competitions"
@@ -16,7 +16,8 @@ class Competition(db.Model, SerializerMixin):
     winner_id = db.Column(db.Integer, db.ForeignKey("competition_photos.id"), nullable=True, default=None)
     
     #Relationships
-    competition_photos = db.relationship("CompetitionPhoto", back_populates="competition", cascade="all, delete-orphan")
+    competition_photos = db.relationship("CompetitionPhoto", foreign_keys="CompetitionPhoto.competition_id",
+                                         back_populates="competition")
     
     #Serializer Rules
     serialize_rules = ("-competition_photos.competition", )

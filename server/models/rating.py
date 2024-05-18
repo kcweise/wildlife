@@ -1,6 +1,7 @@
-
-from config import db, SerializerMixin, validates, datetime
-
+from config import db
+from sqlalchemy_serializer import SerializerMixin
+from datetime import datetime, timedelta
+from sqlalchemy.orm import validates
 
 class Rating(db.Model, SerializerMixin):
     __tablename__="ratings"
@@ -15,7 +16,7 @@ class Rating(db.Model, SerializerMixin):
     user_rated_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     
     #Relationships
-    user_rated = db.relationship("User", back_populates="user_posted_ratings")
+    user = db.relationship("User", back_populates="user_posted_ratings")
     competition_photos = db.relationship("CompetitionPhoto", back_populates="competition_photo_ratings")
     
     #Serializer Rules

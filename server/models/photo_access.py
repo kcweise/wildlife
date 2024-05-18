@@ -1,6 +1,7 @@
-
-from config import db, SerializerMixin, validates
-
+from config import db
+from sqlalchemy_serializer import SerializerMixin
+from datetime import datetime, timedelta
+from sqlalchemy.orm import validates
 
 class PhotoAccess(db.Model, SerializerMixin):
     __tablename__="photo_access"
