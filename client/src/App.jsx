@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";v
+import { Route, Routes } from "react-router-dom";
 import { useState } from 'react'
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
@@ -6,6 +6,7 @@ import AboutPage from "./pages/AboutPage";
 import LoginForm from "./components/LoginForm";
 import RegistrationForm from "./components/RegistrationForm";
 import UserDetail from "./components/UserDetail";
+import NotFoundPage from './components/NotFoundPage';
 import UserContext from "./UserContext";
 import './App.css'
 
