@@ -3,6 +3,8 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
@@ -16,6 +18,8 @@ from config import Config, db, migrate
 # Instantiate app, set attributes
 app = Flask(__name__)
 app.config.from_object(Config)  # Load the config from Config class
+bcrypt = Bcrypt(app)
+jwt = JWTManager(app)
 
 # Instantiate db and migrate
 db.init_app(app)
@@ -93,6 +97,20 @@ class ActiveCompetitions(Resource):
     
 api.add_resource(ActiveCompetitions, "/active_competitions")
 
+class Login(Resource):
+    
+    def post():
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+        user = User.query.filter_by(username=username).first()
+        
+        if user and user.password == password:
+            access_token = create_access_token(identity = {'username': user.username})
+            return jsonify(access_token = access_token), 200
+        return jsonify({'msg': 'Bad username or password'}), 401
+
+api.add_resource(Login, '/login')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -39,4 +39,5 @@ class User (db.Model, SerializerMixin):
         if not re.match(email_regex, value):
             raise ValueError("Invalid email address")
         return value
+
     
