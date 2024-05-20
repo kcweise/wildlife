@@ -4,7 +4,10 @@ from flask_migrate import Migrate
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import (
+    JWTManager, create_access_token, create_refresh_token, 
+    jwt_required, get_jwt_identity, set_access_cookies, 
+    set_refresh_cookies, unset_jwt_cookies)
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
@@ -18,7 +21,7 @@ from config import Config, db, migrate
 # Instantiate app, set attributes
 app = Flask(__name__)
 app.config.from_object(Config)  # Load the config from Config class
-bcrypt = Bcrypt(app)
+#bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 # Instantiate db and migrate
@@ -50,11 +53,8 @@ class Signup(Resource):
         password = request_json.get("password")
         phone = request_json.get("phone")
         email = request_json.get("email")
-        created_date = request_json.get("isAdmin")
+        #created_date = request_json.get(
 
-        IsAdmin = (
-            False if IsAdmin_from_request == 0 else True
-        )  # If IsAdmin is 0, then False, else True
 
         user = User(
             first_name=first_name,
@@ -63,9 +63,8 @@ class Signup(Resource):
             password=password,
             phone=phone,
             email=email,
-            IsAdmin=IsAdmin,
-        )
-
+            )
+        
         try:
 
             db.session.add(user)
@@ -107,10 +106,41 @@ class Login(Resource):
         
         if user and user.password == password:
             access_token = create_access_token(identity = {'username': user.username})
-            return jsonify(access_token = access_token), 200
+            refresh_token = create_refresh_token(identity = {'username': user.username})
+            
+            response = make_response(jsonify ({'msg': 'Login Successful'}), 200)
+            set_access_cookies(response, access_token)
+            set_refresh_cookies(response, refresh_token)
+            return response
+        
         return jsonify({'msg': 'Bad username or password'}), 401
 
 api.add_resource(Login, '/login')
+
+
+class Logout(Resource):
+    def post():
+        response = make_response(jsonify({'msg': 'Logout Successful'}), 200)
+        unset_jwt_cookies(response)
+        
+        return response
+    
+api.add_resource(Logout, '/logout')
+
+
+class Protected(Resource):
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+        return jsonify(logged_in_as = current_user)
+    
+api.add_resource(Protected, '/protected')
+    
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

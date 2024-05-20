@@ -17,6 +17,10 @@ class Config:
     SQLALCHEMY_DATABASE_URI = DATABASE_URI
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JSON_COMPACT = False
+    JWT_SECRET_KEY = 'secret-key'
+    JWT_ACCESS_COOKIE_PATH = '/'
+    JWT_REFRESH_COOKIE_PATH = '/token/refresh'
+    JWT_COOKIE_CSRF_PROTECT = False
 
 # Define metadata, instantiate db
 metadata = MetaData(
