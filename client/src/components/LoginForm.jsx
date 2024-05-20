@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import useAuth from "./UserContext"
+import { useAuth } from "../UserContext"
 import {TextField, Button, Container, Typography, Box} from '@mui/material';
 
 
 function LoginForm() {
-  
+
+  const { isLoggedIn } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState(''); 
 
