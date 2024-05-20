@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import useAuth from "./UserContext"
 import {TextField, Button, Container, Typography, Box} from '@mui/material';
 
 
 function LoginForm() {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(''); 
 
   const handleLogin = async (e)=>{
     e.preventDefault();
@@ -22,6 +23,7 @@ function LoginForm() {
       if (response.ok) {
         const data = await response.json();
         console.log('Login Successful:', data);
+        setIsLoggedIn(true);
       }
       else {
       console.error('Login failed', response.statusText);
@@ -31,6 +33,10 @@ function LoginForm() {
       console.error('Error during login', error);
     }   
   };
+
+  if (isLoggedIn){
+    return<UserDetail />;
+  }
 
 
 

@@ -98,7 +98,7 @@ api.add_resource(ActiveCompetitions, "/active_competitions")
 
 class Login(Resource):
     
-    def post():
+    def post(self):
         data = request.get_json()
         username = data.get('username')
         password = data.get('password')
@@ -119,7 +119,7 @@ api.add_resource(Login, '/login')
 
 
 class Logout(Resource):
-    def post():
+    def post(self):
         response = make_response(jsonify({'msg': 'Logout Successful'}), 200)
         unset_jwt_cookies(response)
         
