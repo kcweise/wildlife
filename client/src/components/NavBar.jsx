@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { useAuth } from '../UserContext';
 
 
 const useStyles = makeStyles({
@@ -22,49 +23,7 @@ const theme = createTheme();
 
 const NavBar = ({ handleLogout })=> {
   const classes = useStyles();
-
-  //const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  // const { isLogin, setIsLogin } = useContext(UserContext); // Use the UserContext to access the user's login status
-  // //const { isAdmin, setIsAdmin } = useContext(UserContext); // Use the UserContext to access the user's admin status
-  // const navigate = useNavigate(); // Use the navigate function to navigate to different pages
-
-  // // check if the user is logged in
-  // // useEffect(() => {
-  // //   // auto-login
-  // //   fetch("/api/check_session").then((r) => {
-  // //     if (r.ok) {
-  // //       r.json().then((user_data) => {
-  // //         setIsLogin(true); // Update the user's login status if the user is logged in
-  // //         //if (user_data.IsAdmin === true) {
-  // //           //setIsAdmin(true); // Set the admin status to true
-  // //         }
-  // //       });
-  // //     }
-  // //   });
-  // // }, [setIsLogin/*, setIsAdmin*/];
-
-  // Handle the logout event
-  // const handleLogout = () => {
-  //   fetch("/api/logout", {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Logout failed");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(() => {
-  //       setIsLogin(false); // Update the user's login status
-  //       //setIsAdmin(false); // Update the user's admin status
-  //     });
-  //   setIsLogin(false); // Update the user's login status
-  //   //setIsAdmin(false); // Update the user's admin status
-  //   navigate("/login");
-  // };
+  const { isLoggedIn } = useAuth();
 
   return (
     <ThemeProvider theme={theme}>
@@ -109,14 +68,25 @@ const NavBar = ({ handleLogout })=> {
         >
           Login
         </Button>
+        {isLoggedIn && user ? (
         <Button
           color="inherit"
           className={classes.navButton}
           component={NavLink}
-          to="/user/:id"
+          to={`/user/${user.id}`}
         >
-          User Detail
+          User Page
         </Button>
+        ):(
+        <Button
+          color="inherit"
+          className={classes.navButton}
+          component={NavLink}
+          to="/login"
+        >
+          User Page
+        </Button>
+        )}
         <Button
           color="inherit"
           className={classes.navButton}
