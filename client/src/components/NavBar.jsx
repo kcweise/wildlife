@@ -23,7 +23,7 @@ const theme = createTheme();
 
 const NavBar = ({ handleLogout })=> {
   const classes = useStyles();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,7 +48,6 @@ const NavBar = ({ handleLogout })=> {
           className={classes.navButton}
           component={NavLink}
           to="/"
-          exact
         >
           Home
         </Button>
@@ -68,7 +67,7 @@ const NavBar = ({ handleLogout })=> {
         >
           Login
         </Button>
-        {isLoggedIn && user ? (
+        {isLoggedIn && user ?  (
         <Button
           color="inherit"
           className={classes.navButton}

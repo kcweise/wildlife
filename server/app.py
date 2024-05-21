@@ -108,7 +108,7 @@ class Login(Resource):
             access_token = create_access_token(identity = {'username': user.username})
             refresh_token = create_refresh_token(identity = {'username': user.username})
             
-            response = make_response(jsonify ({'msg': 'Login Successful'}), 200)
+            response = make_response(jsonify ({'msg': 'Login Successful', 'user': user.to_dict(rules = ('-user_photos.user',))}), 200)
             set_access_cookies(response, access_token)
             set_refresh_cookies(response, refresh_token)
             return response
@@ -145,7 +145,7 @@ class PhotosById(Resource):
         if not photos:
             return{'message': 'No photos found for this user'}, 404
         
-        return [photo.to_dict() for photo in photos], 200
+        return [photo.to_dict(rules=("-user",)) for photo in photos], 200
     
 api.add_resource(PhotosById, "/users/<int:id>/photos")
         

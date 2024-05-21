@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../UserContext"
+import { useAuth } from "../UserContext";
 import {TextField, Button, Container, Typography, Box} from '@mui/material';
 import UserPage from '../pages/UserPage'
 
 
 function LoginForm() {
 
-  const { isLoggedIn, login } = useAuth();
+  const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -22,14 +22,14 @@ function LoginForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, password }),
-        credentials: 'include',
+        
       });
       
       if (response.ok) {
         const data = await response.json();
         console.log('Login Successful:', data);
-        login();
-        navigate(`/user/${data.userId}`);
+        login(data.user);
+        navigate(`/user/${data.user.id}`);
       }
       else {
       console.error('Login failed', response.statusText);
@@ -39,11 +39,6 @@ function LoginForm() {
       console.error('Error during login', error);
     }   
   };
-
-  if (isLoggedIn){
-    return<UserPage />;
-  }
-
 
 
   return (
