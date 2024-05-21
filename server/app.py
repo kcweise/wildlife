@@ -33,7 +33,7 @@ migrate.init_app(app, db)
 api = Api(app)
 
 # Enable CORS
-CORS(app)
+CORS(app, supports_credentials=True, origins=["http://127.0.0.1:4000"])
 
 
 
@@ -135,6 +135,21 @@ class Protected(Resource):
         return jsonify(logged_in_as = current_user)
     
 api.add_resource(Protected, '/protected')
+
+
+class PhotosById(Resource):
+    def get(self, id):
+        user = User.query.get(id)
+        photos = Photo.query.filter_by(user_id=user.id).all()
+        
+        if not photos:
+            return{'message': 'No photos found for this user'}, 404
+        
+        return [photo.to_dict() for photo in photos], 200
+    
+api.add_resource(PhotosById, "/users/<int:id>/photos")
+        
+    
     
 
 

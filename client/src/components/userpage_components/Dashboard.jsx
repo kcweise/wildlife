@@ -23,33 +23,26 @@ function Dashboard() {
   const classes = useStyles();
 
   return (
-    <Box display="flex">
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
-        <List>
-          <ListItem button component={Link} to="/photos">
-            <ListItemText primary="Photos" />
-          </ListItem>
-          <ListItem button component={Link} to="/users-list">
-            <ListItemText primary="Users List" />
-          </ListItem>
-          <ListItem button component={Link} to="/load-photos">
-            <ListItemText primary="Load Photos" />
-          </ListItem>
-          <ListItem button component={Link} to="/current-competitions">
-            <ListItemText primary="Current Competitions" />
-          </ListItem>
-        </List>
-      </Drawer>
-      <Box className={classes.content}>
-        {/* Main content of the page */}
-      </Box>
-    </Box>
+    <div>
+      <List component="nav">
+        <ListItem button component={Link} to="photos">
+          <ListItemText primary="Photos" />
+        </ListItem>
+        <Divider />
+        <ListItem button component={Link} to="users-list">
+          <ListItemText primary="Users List" />
+        </ListItem>
+        <Divider />
+        <ListItem button component={Link} to="load-photos">
+          <ListItemText primary="Load Photos" />
+        </ListItem>
+        <Divider />
+        <ListItem button component={Link} to="current-competitions">
+          <ListItemText primary="Current Competitions" />
+        </ListItem>
+        <Divider />
+      </List>
+    </div>
   );
 }
 export default Dashboard;

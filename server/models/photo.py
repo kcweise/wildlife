@@ -8,7 +8,7 @@ class Photo(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     post_date_time = db.Column(db.DateTime, default=datetime.now)
-    taken_date_time = db.Column(db.DateTime)
+    taken_date_time = db.Column(db.DateTime, nullable=True)
     title = db.Column(db.String, nullable=True)
     animal = db.Column(db.String, nullable=True )
     description = db.Column(db.String, nullable=True)

@@ -4,6 +4,11 @@ import Dashboard from '../components/userpage_components/Dashboard';
 
 
 function UserPage() {
+  const { isLoggedIn } = useAuth();
+
+  if (!isLoggedIn) {
+    return <Navigate to = "/login"/>;
+  }
   
   return (
     <div>

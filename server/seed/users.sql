@@ -1,3 +1,4 @@
+DELETE FROM Users;
 
 INSERT INTO Users (first_name, last_name, username, password, phone, email, created_date) VALUES 
 ('John', 'Doe', 'johndoe', '123', '123-456-7890', 'john@example.com', '2023-05-17 14:25:00'),
@@ -19,7 +20,7 @@ INSERT INTO Users (first_name, last_name, username, password, phone, email, crea
 ('Kevin', 'King', 'kevink', '123', '777-444-5555', 'kevin@example.com', '2022-01-08 11:45:00'),
 ('Michelle', 'Nelson', 'michellen', '123', '999-666-7777', 'michelle@example.com', '2021-04-24 01:00:00'),
 ('Steven', 'Carter', 'stevenc', '123', '222-555-8888', 'steven@example.com', '2020-10-11 15:45:00'),
-('Rebecca', 'Cooper', 'rebeccac', 'passwordmno', '888-111-2222', 'rebecca@example.com', '2020-03-12 03:45:00');
+('Rebecca', 'Cooper', 'rebeccac', '123', '888-111-2222', 'rebecca@example.com', '2020-03-12 03:45:00');
 /*('Justin', 'Parker', 'justinp', 'passwordpqr', '444-777-9999', 'justin@example.com', 0),
 ('Laura', 'Evans', 'laurae', 'passwordstu', '666-999-1111', 'laura@example.com', 0),
 ('Mark', 'Morris', 'markm', 'passwordvwx', '123-456-7890', 'mark@example.com', 0),

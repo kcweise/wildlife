@@ -28,6 +28,7 @@ function App() {
               <Route path="/register" element={<RegistrationForm />} />
               <Route path="/user/:id" element={<UserPage />} >
                 {/*Nested routes to persist on user page*/}
+                <Route index element={<Photos />} />
                 <Route path="photos" element={<Photos />} />
                 <Route path="users-list" element={<UsersList />} />
                 <Route path="load-photos" element={<LoadPhotos />} />
