@@ -28,6 +28,7 @@ function LoginForm() {
       if (response.ok) {
         const data = await response.json();
         console.log('Login Successful:', data);
+        console.log(data.user)
         login(data.user);
         navigate(`/user/${data.user.id}`);
       }
