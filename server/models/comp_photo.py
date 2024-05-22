@@ -8,7 +8,7 @@ class CompetitionPhoto(db.Model, SerializerMixin):
     __tablename__="competition_photos"
     
     id = db.Column(db.Integer, primary_key=True)
-    votes = db.Column(db.Integer, nullable=False, default=None)
+    votes = db.Column(db.Integer, nullable=False, default= 0)
     
     #Foreign Keys
     competition_id = db.Column(db.Integer, db.ForeignKey("competitions.id"))

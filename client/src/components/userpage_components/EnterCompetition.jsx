@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, 
+    FormControl, InputLabel, MenuItem, Select, TextField, ListItemText } from '@material-ui/core';
 import { useAuth } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
-const EnterCompetition = ({ photoId }) => {
-  const { user } = useAuth();
+const EnterCompetition = ({ photo, onClose }) => {
+  const { login } = useAuth();
   const [open, setOpen] = useState(false);
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState('');
-  const [animal, setAnimal] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [animal, setAnimal] = useState(photo.animal || '');
+  const [title, setTitle] = useState(photo.title || '');
+  const [description, setDescription] = useState(photo.description || '');
   const [validationError, setValidationError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch competitions from backend API
@@ -21,7 +24,12 @@ const EnterCompetition = ({ photoId }) => {
           throw new Error('Failed to fetch competitions');
         }
         const data = await response.json();
-        setCompetitions(data);
+
+        const activeCompetitions = data.active_competitions || [];
+        const futureCompetitions = data.future_competitions || [];
+        const competitions = [...activeCompetitions, ...futureCompetitions];
+
+        setCompetitions(competitions);
       } catch (error) {
         console.error('Error fetching competitions:', error);
       }
@@ -31,27 +39,46 @@ const EnterCompetition = ({ photoId }) => {
 
   const handleSubmit = async () => {
     if (!animal || !title || !description) {
-      setValidationError('Please fill out all required fields.');
+      setValidationError('Please fill out all fields for competition entry.');
       return;
     }
-
     try {
-      const response = await fetch(`/api/competitions/${selectedCompetition}/enter`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ photoId }),
-      });
+        const patchData = {
+            animal,
+            title,
+            description
+          };
+    
+        // Patch request to update photo attributes if necessary
+        const patchResponse = await fetch(`/api/photos/${photo.id}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(patchData),
+        });
+        
+        if (!patchResponse.ok) {
+          throw new Error('Failed to update photo attributes');
+        }
 
-      if (!response.ok) {
+        const enterResponse = await fetch(`/api/competition-photos/${selectedCompetition}/enter`, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ photo_id: photo.id }),
+        });
+
+      if (!enterResponse.ok) {
         throw new Error('Failed to enter competition');
       }
-
-      // Optionally update user context or handle success
-
-      // Close the modal
+      const updatedUser = await enterResponse.json();
+      login(updatedUser.user); // Update user in context with the new data      
+      navigate(`/user/${updatedUser.user.id}/photos`);
       handleClose();
+      onClose();
+
     } catch (error) {
       console.error('Error:', error);
     }
@@ -80,9 +107,12 @@ const EnterCompetition = ({ photoId }) => {
               value={selectedCompetition}
               onChange={(e) => setSelectedCompetition(e.target.value)}
             >
+              <MenuItem disabled>
+                <ListItemText primary="Name---Start Date---End Date" />
+              </MenuItem>
               {competitions.map((competition) => (
                 <MenuItem key={competition.id} value={competition.id}>
-                  {competition.name} - {competition.startDate}
+                  {competition.name} - {competition.start_date} - {competition.end_date}
                 </MenuItem>
               ))}
             </Select>

@@ -103,6 +103,43 @@ class Competitions(Resource):
     
 api.add_resource(Competitions, "/competitions")
 
+class EnterCompetitionPhoto(Resource):
+    def post(self, competition_id):
+        # Get the photo ID from the request body
+        data = request.get_json()
+        photo_id = data.get('photo_id')
+
+        # Validates that the required fields are provided
+        if not photo_id:
+            return make_response(jsonify({'error': 'Photo ID is required'}), 400)
+
+        # Check if the photo is already entered in the competition
+        existing_entry = CompetitionPhoto.query.filter_by(competition_id=competition_id, photo_id=photo_id).first()
+        if existing_entry:
+            return make_response(jsonify({'error': 'Photo already entered in the competition'}), 400)
+         
+        photo = Photo.query.get(photo_id)
+        if not photo:
+            return make_response(jsonify({'error': 'Photo not found'}), 404)
+        # Create a new competition photo entry
+        new_entry = CompetitionPhoto(competition_id=competition_id, photo_id=photo_id, )
+
+        try:
+            # Add the new entry to the database
+            db.session.add(new_entry)
+            db.session.commit()
+            
+            updated_user = User.query.get(new_entry.photo.user_id)
+
+            return make_response(jsonify({'message': 'Photo successfully entered in the competition', 'user': updated_user.to_dict()}), 201)
+        except Exception as e:
+            # If an error occurs, rollback the transaction and return an error response
+            db.session.rollback()
+            return make_response(jsonify({'error': str(e)}), 500)
+        
+api.add_resource(EnterCompetitionPhoto, "/competition-photos/<int:competition_id>/enter")
+        
+
 class Login(Resource):
     
     def post(self):
