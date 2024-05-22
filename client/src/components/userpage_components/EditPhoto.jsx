@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@material-ui/core';
 import { useAuth } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const EditPhoto = ({ photo }) => {
   const [open, setOpen] = useState(false);
@@ -8,14 +9,17 @@ const EditPhoto = ({ photo }) => {
   const [animal, setAnimal] = useState(photo.animal);
   const [description, setDescription] = useState(photo.description);
   const [photo_url, setPhoto_URL] = useState(photo.photo_url)
-  const { setUser } = useAuth();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleEdit = async () => {
     try {
-      const response = await fetch(`/photos/${photo.id}`, {
+      console.log(photo.id)
+      const response = await fetch(`http://localhost:5555/photos/${photo.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -26,7 +30,8 @@ const EditPhoto = ({ photo }) => {
         throw new Error('Failed to edit photo');
       }
       const updatedUser = await response.json();
-      setUser(updatedUser); // Update user in context with the new data
+      login(updatedUser); // Update user in context with the new data
+      navigate(`/user/${updatedUser.id}/photos`);
       handleClose();
     } catch (error) {
       console.error('Error:', error);

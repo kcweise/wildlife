@@ -44,15 +44,15 @@ import PhotoDetail from './PhotoDetail';
 
 const Photos = () => {
   const { user } = useAuth();
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState(false);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleOpenModal = (photo) => {
+  const handleOpenDetail = (photo) => {
     setSelectedPhoto(photo);
     setOpenModal(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseDetail = () => {
     setOpenModal(false);
   };
 
@@ -68,7 +68,7 @@ const Photos = () => {
                 height="200"
                 image={photo.photo_url}
                 title={photo.title || 'Photo'}
-                onClick={() => handleOpenModal(photo)} // Open Detail on click
+                onClick={() => handleOpenDetail(photo)} // Open Detail on click
               />
               <CardContent>
                 <Typography variant="h6" component="h2">
@@ -87,7 +87,7 @@ const Photos = () => {
       <PhotoDetail
         photo={selectedPhoto}
         open={openModal}
-        onClose={handleCloseModal}
+        onClose={handleCloseDetail}
       />
     </Container>
   );

@@ -172,7 +172,6 @@ class PhotosByUserId(Resource):
             if not photo_url:
                 return make_response(jsonify({'message': 'No photo URL provided'}), 400)
                 
-
             photo = Photo(
                 title=title,
                 animal=animal,
@@ -195,12 +194,24 @@ api.add_resource(PhotosByUserId, "/users/<int:id>/photos")
 
 
 
+class Photos(Resource):
+
+    def get(self):
+        photos = Photo.query.all()
+        
+        
+        if not photos:
+            return{'message': 'No photos found for this user'}, 404
+        
+        return [photo.to_dict(rules=("-user",)) for photo in photos], 200
+    
+api.add_resource(Photos, "/photos")
 
 
 class PhotosById(Resource):
  
     def patch(self, id):
-        photo = Photo.query.filter_by(id=id).first()
+        photo = Photo.query.filter_by(id=id).all()
 
         if not photo:
             return make_response({"error": "photo not found"}, 404)
@@ -226,9 +237,16 @@ class PhotosById(Resource):
             return make_response({"error": "photo not found"}, 404)
 
         try:
+            user_id = photo.user_id
             db.session.delete(photo)
             db.session.commit()
-            return make_response({}, 204)
+            
+            updated_user = User.query.get(user_id)
+            
+            if not updated_user:
+                return make_response({"error": "User not found"}, 404)
+            
+            return make_response({"message": "Photo deleted", "user": updated_user.to_dict()}, 200)
 
         except Exception as e:
             print(f"Error deleting photo: {str(e)}")

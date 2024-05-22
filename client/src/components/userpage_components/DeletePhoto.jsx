@@ -1,20 +1,25 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import { useAuth } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
-const DeletePhoto = ({ photoId }) => {
-  const { setUser } = useAuth();
+const DeletePhoto = ({ photoId, onClose }) => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`/photos/${photoId}`, {
+      const response = await fetch(`http://localhost:5555/photos/${photoId}`, {
         method: 'DELETE',
       });
-      if (!response.ok) {
-        throw new Error('Failed to delete photo');
-      }
+      //if (!response.ok) {
+        //throw new Error('Failed to delete photo');
+      //}
       const updatedUser = await response.json();
-      setUser(updatedUser); // Update user in context with the new data
+      login(updatedUser.user); // Update user in context with the new data
+      onClose();
+      navigate(`/user/${updatedUser.user.id}/photos`);
+
     } catch (error) {
       console.error('Error:', error);
     }

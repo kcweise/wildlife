@@ -6,6 +6,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useAuth } from '../../UserContext';
+import { useNavigate } from 'react-router-dom';
 
 function LoadPhotos() {
   
@@ -14,6 +15,7 @@ function LoadPhotos() {
   const [description, setDescription] = useState('');
   const [photoUrl, setPhotoUrl] = useState('');
   const { user, login } = useAuth();
+  const navigate = useNavigate();
 
 
   const handleSubmit = async (event) => {
@@ -41,6 +43,7 @@ function LoadPhotos() {
 
       const updatedUser = await response.json();
       login(updatedUser); // Update user in context with the new data
+      navigate(`/user/${updatedUser.id}/photos`);
 
     } catch (error) {
       console.error('Error:', error);
