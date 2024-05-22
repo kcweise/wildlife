@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@material-ui/core';
 import DeletePhoto from './DeletePhoto';
 import EditPhoto from './EditPhoto';
-//import EnterCompetition from './EnterCompetition';
+import EnterCompetition from './EnterCompetition';
 
 const PhotoDetail = ({ photo, open, onClose }) => {
     return (
@@ -13,7 +13,7 @@ const PhotoDetail = ({ photo, open, onClose }) => {
           </DialogContent>
           <DialogActions>
             <DeletePhoto photoId={photo.id} onClose = {onClose} />
-            {/*<EnterCompetition photoId={photo.id} />*/}
+            <EnterCompetition photoId={photo.id} onClose={onClose} />
             <EditPhoto photo={photo} onClose = {onClose} />
             <Button onClick={onClose}>Close</Button>
           </DialogActions>

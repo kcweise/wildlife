@@ -89,10 +89,17 @@ class ActiveCompetitions(Resource):
         comps = Competition.query.all()
         
         if comps:
+            past_comps = [comp.to_dict() for comp in comps if comp.end_date <
+                            current_datetime]
             active_comps = [comp.to_dict() for comp in comps if comp.start_date <= 
-                        current_datetime <= comp.end_date]
+                            current_datetime <= comp.end_date]
+            future_comps = [comp.to_dict() for comp in comps if comp.start_date >
+                            current_datetime]
         
-        return make_response(active_comps, 200)
+        return make_response({
+            "active_competitions": active_comps,
+            "future_competitions": future_comps,
+            "past_comptitions": past_comps}, 200)
     
 api.add_resource(ActiveCompetitions, "/active_competitions")
 
