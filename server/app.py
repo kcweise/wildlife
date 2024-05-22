@@ -12,7 +12,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import validates
 from sqlalchemy_serializer import SerializerMixin
 from datetime import datetime, timedelta
-import re
+import os
 
 # Importing models triggers __init__.py to register all imports within
 from models import User, Photo, PhotoAccess, Competition, CompetitionPhoto, Rating
@@ -146,6 +146,48 @@ class PhotosById(Resource):
             return{'message': 'No photos found for this user'}, 404
         
         return [photo.to_dict(rules=("-user",)) for photo in photos], 200
+    
+    def post(self, id):
+                
+        user = User.query.get(id)
+        if not user:
+            return make_response({'message': 'User not found'}, 404)
+        
+        try:
+            title = request.form.get("title"),
+            animal = request.form.get("animal"),
+            description = request.form.get("description"),
+            file = request.files.get('photos')
+                
+                                
+            if file:
+                # Save the file to a directory and get the file URL
+                photos_dir = os.path.join(os.getcwd(), 'client', 'photos')
+                if not os.path.exists(photos_dir):
+                    os.makedirs(photos_dir)
+                file_path = os.path.join(photos_dir, file.filename)
+                file.save(file_path)
+                photo_url = f'/photos/{file.filename}'
+                
+            else:
+                return jsonify({'message': 'No file uploaded'}), 400
+
+            photo = Photo(
+                title=title,
+                animal=animal,
+                description=description,
+                photo_url=photo_url,
+                user_id=id
+            )
+            db.session.add(photo)
+            db.session.commit()
+            
+            updated_user = User.query.get(id)
+            
+            return make_response(updated_user.to_dict(), 201)
+        
+        except ValueError:
+            return make_response({"error": ["Validation errors"]}, 400)
     
 api.add_resource(PhotosById, "/users/<int:id>/photos")
         
