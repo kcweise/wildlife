@@ -38,8 +38,9 @@
 // export default Photos;
 
 import React, { useState } from 'react';
-import { Container, Grid, Card, CardMedia, CardContent, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { Container, Grid, Card, CardMedia, CardContent, Typography, Button } from '@material-ui/core';
 import { useAuth } from '../../UserContext';
+import PhotoDetail from './PhotoDetail';
 
 const Photos = () => {
   const { user } = useAuth();
@@ -67,7 +68,7 @@ const Photos = () => {
                 height="200"
                 image={photo.photo_url}
                 title={photo.title || 'Photo'}
-                onClick={() => handleOpenModal(photo)} // Open modal on click
+                onClick={() => handleOpenModal(photo)} // Open Detail on click
               />
               <CardContent>
                 <Typography variant="h6" component="h2">
@@ -75,29 +76,19 @@ const Photos = () => {
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                   {photo.description || 'No description'}
-                </Typography>
-                <Button onClick={() => handleDelete(photo.id)}>Delete</Button>
-                <Button onClick={() => handleEnterCompetition(photo.id)}>Enter Competition</Button>
-                <Button onClick={() => handleEdit(photo.id)}>Edit</Button>
+                </Typography>                
               </CardContent>
             </Card>
           </Grid>
         ))}
       </Grid>
 
-      {/* Modal for displaying large photo */}
-      <Dialog open={openModal} onClose={handleCloseModal} fullWidth maxWidth= "auto">
-        <DialogTitle>{selectedPhoto ? selectedPhoto.title : 'Untitled'}</DialogTitle>
-        <DialogContent style = {{justifyContent: 'center'}}>
-          <img src={selectedPhoto ? selectedPhoto.photo_url : ''} alt={selectedPhoto ? selectedPhoto.title : ''} style={{maxWidth:'75%', width: '75%', height: 'auto'}} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleDelete(selectedPhoto.id)}>Delete</Button>
-          <Button onClick={() => handleEnterCompetition(selectedPhoto.id)}>Enter Competition</Button>
-          <Button onClick={() => handleEdit(selectedPhoto.id)}>Edit</Button>
-          <Button onClick={handleCloseModal}>Close</Button>
-        </DialogActions>
-      </Dialog>
+      {/* Detail for displaying large photo */}
+      <PhotoDetail
+        photo={selectedPhoto}
+        open={openModal}
+        onClose={handleCloseModal}
+      />
     </Container>
   );
 };

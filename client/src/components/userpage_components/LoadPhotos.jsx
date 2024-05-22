@@ -4,37 +4,35 @@ import {
   Button,
   TextField,
   Typography,
-  IconButton,
 } from '@mui/material';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { useAuth } from '../../UserContext';
 
 function LoadPhotos() {
-  const [files, setFiles] = useState([]);
+  
   const [title, setTitle] = useState('');
   const [animal, setAnimal] = useState('');
   const [description, setDescription] = useState('');
-  const { user, setUser } = useAuth();
+  const [photoUrl, setPhotoUrl] = useState('');
+  const { user, login } = useAuth();
 
-  const handleFileChange = (event) => {
-    setFiles(event.target.files);
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("animal", animal);
-    formData.append("description", description);
-    for(let i = 0; i < files.length; i++) {
-      formData.append("photos", files[i]);
-    }
+    const data = {
+      title,
+      animal,
+      description,
+      photo_url: photoUrl
+    };
     
     try{
-      const response = await fetch(`/users/${user.id}/photos`, {
+      const response = await fetch(`http://localhost:5555/users/${user.id}/photos`, {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
@@ -42,7 +40,7 @@ function LoadPhotos() {
       }
 
       const updatedUser = await response.json();
-      setUser(updatedUser); // Update user in context with the new data
+      login(updatedUser); // Update user in context with the new data
 
     } catch (error) {
       console.error('Error:', error);
@@ -53,7 +51,7 @@ function LoadPhotos() {
   return (
     <Box component="form" onSubmit={handleSubmit} noValidate autoComplete="off">
       <Typography variant="h4" gutterBottom>
-        Upload Photos
+        Add Photo to Collection
       </Typography>
       <Box display="flex" flexDirection="column" gap={2} mb={2}>
         <TextField
@@ -76,22 +74,14 @@ function LoadPhotos() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <Button
-          variant="contained"
-          component="label"
-          startIcon={<PhotoCamera />}
-        >
-          Upload Photos
-          <input
-            type="file"
-            hidden
-            multiple
-            onChange={handleFileChange}
-          />
-        </Button>
-        {files.length > 0 && (
-          <Typography variant="body1">{files.length} files selected</Typography>
-        )}
+        <TextField
+          label="Photo URL"
+          variant="outlined"
+          multiline
+          rows={4}
+          value={photoUrl}
+          onChange={(e) => setPhotoUrl(e.target.value)}
+        />        
         <Button variant="contained" type="submit">
           Submit
         </Button>

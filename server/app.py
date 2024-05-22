@@ -137,7 +137,7 @@ class Protected(Resource):
 api.add_resource(Protected, '/protected')
 
 
-class PhotosById(Resource):
+class PhotosByUserId(Resource):
     def get(self, id):
         user = User.query.get(id)
         photos = Photo.query.filter_by(user_id=user.id).all()
@@ -154,23 +154,24 @@ class PhotosById(Resource):
             return make_response({'message': 'User not found'}, 404)
         
         try:
-            title = request.form.get("title"),
-            animal = request.form.get("animal"),
-            description = request.form.get("description"),
-            file = request.files.get('photos')
-                
+            data = request.get_json()
+            title = data.get("title")
+            animal = data.get("animal")
+            description = data.get("description")
+            photo_url = data.get("photo_url")
                                 
-            if file:
-                # Save the file to a directory and get the file URL
-                photos_dir = os.path.join(os.getcwd(), 'client', 'photos')
-                if not os.path.exists(photos_dir):
-                    os.makedirs(photos_dir)
-                file_path = os.path.join(photos_dir, file.filename)
-                file.save(file_path)
-                photo_url = f'/photos/{file.filename}'
+            # if file:
+            #     # Save the file to a directory and get the file URL
+            #     photos_dir = os.path.join(os.getcwd(), 'client', 'photos')
+            #     if not os.path.exists(photos_dir):
+            #         os.makedirs(photos_dir)
+            #     file_path = os.path.join(photos_dir, file.filename)
+            #     file.save(file_path)
+            #     photo_url = f'/photos/{file.filename}'
+            
+            if not photo_url:
+                return make_response(jsonify({'message': 'No photo URL provided'}), 400)
                 
-            else:
-                return jsonify({'message': 'No file uploaded'}), 400
 
             photo = Photo(
                 title=title,
@@ -189,7 +190,53 @@ class PhotosById(Resource):
         except ValueError:
             return make_response({"error": ["Validation errors"]}, 400)
     
-api.add_resource(PhotosById, "/users/<int:id>/photos")
+api.add_resource(PhotosByUserId, "/users/<int:id>/photos")
+
+
+
+
+
+
+class PhotosById(Resource):
+ 
+    def patch(self, id):
+        photo = Photo.query.filter_by(id=id).first()
+
+        if not photo:
+            return make_response({"error": "photo not found"}, 404)
+
+        try:
+            data = request.get_json()
+            for attr in data:
+                setattr(photo, attr, data.get(attr))
+
+            db.session.add(photo)
+            db.session.commit()
+            return make_response(
+                photo.to_dict(), 202
+            )
+
+        except ValueError:
+            return ({"errors": ["validation errors"]}, 400)
+            
+    def delete(self, id):
+        photo = Photo.query.filter_by(id=id).first()
+
+        if not photo:
+            return make_response({"error": "photo not found"}, 404)
+
+        try:
+            db.session.delete(photo)
+            db.session.commit()
+            return make_response({}, 204)
+
+        except Exception as e:
+            print(f"Error deleting photo: {str(e)}")
+            return ({"errors": ["validation errors"]}, 400)
+        
+api.add_resource(PhotosById, "/photos/<int:id>")
+ 
+ 
         
     
     
