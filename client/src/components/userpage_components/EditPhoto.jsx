@@ -3,7 +3,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } 
 import { useAuth } from '../../UserContext';
 import { useNavigate } from 'react-router-dom';
 
-const EditPhoto = ({ photo }) => {
+const EditPhoto = ({ photo, onClose }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(photo.title);
   const [animal, setAnimal] = useState(photo.animal);
@@ -30,9 +30,10 @@ const EditPhoto = ({ photo }) => {
         throw new Error('Failed to edit photo');
       }
       const updatedUser = await response.json();
-      login(updatedUser); // Update user in context with the new data
-      navigate(`/user/${updatedUser.id}/photos`);
+      login(updatedUser.user); // Update user in context with the new data      
+      navigate(`/user/${updatedUser.user.id}/photos`);
       handleClose();
+      onClose();
     } catch (error) {
       console.error('Error:', error);
     }

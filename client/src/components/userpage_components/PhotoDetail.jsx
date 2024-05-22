@@ -14,7 +14,7 @@ const PhotoDetail = ({ photo, open, onClose }) => {
           <DialogActions>
             <DeletePhoto photoId={photo.id} onClose = {onClose} />
             {/*<EnterCompetition photoId={photo.id} />*/}
-            <EditPhoto photo={photo} />
+            <EditPhoto photo={photo} onClose = {onClose} />
             <Button onClick={onClose}>Close</Button>
           </DialogActions>
         </Dialog>

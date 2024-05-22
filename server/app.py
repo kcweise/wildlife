@@ -211,7 +211,7 @@ api.add_resource(Photos, "/photos")
 class PhotosById(Resource):
  
     def patch(self, id):
-        photo = Photo.query.filter_by(id=id).all()
+        photo = Photo.query.filter_by(id=id).first()
 
         if not photo:
             return make_response({"error": "photo not found"}, 404)
@@ -220,12 +220,17 @@ class PhotosById(Resource):
             data = request.get_json()
             for attr in data:
                 setattr(photo, attr, data.get(attr))
-
-            db.session.add(photo)
+                
+            user_id = photo.user_id
+            #db.session.add(photo)
             db.session.commit()
-            return make_response(
-                photo.to_dict(), 202
-            )
+            
+            updated_user = User.query.get(user_id)
+            
+            if not updated_user:
+                return make_response({"error": "User not found"}, 404)
+            
+            return make_response({"message": "Photo updated", "user": updated_user.to_dict()}, 200)
 
         except ValueError:
             return ({"errors": ["validation errors"]}, 400)
