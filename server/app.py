@@ -83,7 +83,7 @@ api.add_resource(Signup, "/signup", endpoint="signup")
 
 
 
-class ActiveCompetitions(Resource):
+class Competitions(Resource):
     def get(self):
         current_datetime = datetime.now()
         comps = Competition.query.all()
@@ -99,9 +99,9 @@ class ActiveCompetitions(Resource):
         return make_response({
             "active_competitions": active_comps,
             "future_competitions": future_comps,
-            "past_comptitions": past_comps}, 200)
+            "past_competitions": past_comps}, 200)
     
-api.add_resource(ActiveCompetitions, "/active_competitions")
+api.add_resource(Competitions, "/competitions")
 
 class Login(Resource):
     

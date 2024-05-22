@@ -29,7 +29,7 @@ function LoadPhotos() {
     };
     
     try{
-      const response = await fetch(`http://localhost:5555/users/${user.id}/photos`, {
+      const response = await fetch(`/api/users/${user.id}/photos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

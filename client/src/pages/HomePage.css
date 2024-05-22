@@ -1,83 +1,41 @@
 .page-container {
-  display: flex;
-  flex-direction: column; /* Arrange children in a column */
-  align-items: center; /* Center children horizontally */
-  margin-left: 60px;
-  margin-top: 300px;
-  padding-bottom: 50px; /* Add some padding at the bottom */
+  padding: 20px;
 }
 
 .home-header {
-  font-size: 30px;
   text-align: center;
-  margin-top: 300px;
-  color: rgb(240, 236, 236);
-  margin-bottom: 0px;
-
-  /* Additional font styles */
-  font-family: 'Boogaloo'; /* Use a custom fancy font or a web-safe fallback */
-  font-weight: bold; /* Adjust font weight */
-  letter-spacing: 2px; /* Add letter spacing for a decorative effect */
-  /* Add any other desired font properties */
-  text-shadow: 2px 4px 6px rgba(0, 0, 0, 2); /* Adding a text shadow */
+  margin-bottom: 20px;
 }
 
-
 .card-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
   justify-content: center;
-  max-width: 900px;
-  margin-top: 20px; /* Adjust the top margin */
 }
 
 .card {
   width: 300px;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 1, 1.4);
-  background-color: rgb(237, 237, 244);
 }
 
-.card img {
+.card-content {
+  padding: 15px;
+}
+
+.photos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.photo-card {
+  width: 100px;
+  height: 100px;
+}
+
+.photo-card img {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-}
-
-.card-content {
-  padding: 10px;
-}
-.card-content {
-  position: relative; /* Position relative for absolute positioning */
-}
-
-.restaurant-name {
-  margin-top: 10px; /* Adjust the margin to move closer to the image */
-  text-align: center;
-
-}
-
-.category-container {
-  position: absolute;
-  top: 10px; /* Adjust the distance from the top */
-  right: 10px; /* Adjust the distance from the right */
-  text-align: center;
-  
-
-}
-
-
-.category {
-  color: white;
-  background-color: rgb(60, 56, 56);
-  padding: 5px 10px;
-  border-radius: 5px;
-  margin-right: 15px;
-}
-
-.star-rating-container {
-  margin-left: auto; /* Push the star rating to the right */
 }

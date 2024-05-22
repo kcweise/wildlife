@@ -9,7 +9,7 @@ const DeletePhoto = ({ photoId, onClose }) => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`http://localhost:5555/photos/${photoId}`, {
+      const response = await fetch(`/api/photos/${photoId}`, {
         method: 'DELETE',
       });
       //if (!response.ok) {

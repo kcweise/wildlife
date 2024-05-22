@@ -19,7 +19,7 @@ const EditPhoto = ({ photo, onClose }) => {
   const handleEdit = async () => {
     try {
       console.log(photo.id)
-      const response = await fetch(`http://localhost:5555/photos/${photo.id}`, {
+      const response = await fetch(`/api/photos/${photo.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

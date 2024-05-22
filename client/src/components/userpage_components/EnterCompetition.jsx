@@ -16,7 +16,7 @@ const EnterCompetition = ({ photoId }) => {
     // Fetch competitions from backend API
     const fetchCompetitions = async () => {
       try {
-        const response = await fetch('http://localhost:5555/competitions');
+        const response = await fetch('/api/competitions');
         if (!response.ok) {
           throw new Error('Failed to fetch competitions');
         }
@@ -36,7 +36,7 @@ const EnterCompetition = ({ photoId }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5555/competitions/${selectedCompetition}/enter`, {
+      const response = await fetch(`/api/competitions/${selectedCompetition}/enter`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
