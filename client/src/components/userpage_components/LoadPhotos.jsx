@@ -20,7 +20,7 @@ function LoadPhotos() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+    console.log(user);
     const data = {
       title,
       animal,

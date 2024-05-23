@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, 
-    FormControl, InputLabel, MenuItem, Select, TextField, ListItemText } from '@material-ui/core';
+    FormControl, InputLabel, MenuItem, Select, TextField, ListItemText,
+    DialogContentText } from '@material-ui/core';
 import { useAuth } from '../../UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const EnterCompetition = ({ photo, onClose }) => {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const [open, setOpen] = useState(false);
   const [competitions, setCompetitions] = useState([]);
   const [selectedCompetition, setSelectedCompetition] = useState('');
@@ -13,6 +14,7 @@ const EnterCompetition = ({ photo, onClose }) => {
   const [title, setTitle] = useState(photo.title || '');
   const [description, setDescription] = useState(photo.description || '');
   const [validationError, setValidationError] = useState('');
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +44,15 @@ const EnterCompetition = ({ photo, onClose }) => {
       setValidationError('Please fill out all fields for competition entry.');
       return;
     }
+
+    const isAlreadySubmitted = photo.competition_photo && 
+      photo.competition_photo.competition_id === selectedCompetition;
+
+    if (isAlreadySubmitted){
+      setAlreadySubmitted(true);
+      return;
+    }
+
     try {
         const patchData = {
             animal,
@@ -83,6 +94,7 @@ const EnterCompetition = ({ photo, onClose }) => {
       console.error('Error:', error);
     }
   };
+  
 
   const handleOpen = () => {
     setOpen(true);
@@ -90,6 +102,10 @@ const EnterCompetition = ({ photo, onClose }) => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleAlreadySubmitted = () => {
+    setAlreadySubmitted(false);
   };
 
   return (
@@ -150,6 +166,20 @@ const EnterCompetition = ({ photo, onClose }) => {
           </Button>
           <Button onClick={handleClose} color="secondary">
             Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={alreadySubmitted} onClose={handleAlreadySubmitted}>
+        <DialogTitle>Photo Already Submitted</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            This photo has already been submitted to the selected competition.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAlreadySubmitted} color="primary">
+            OK
           </Button>
         </DialogActions>
       </Dialog>
