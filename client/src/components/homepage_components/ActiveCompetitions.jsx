@@ -21,34 +21,8 @@ const ActiveCompetitions = () => {
       })
       .catch((error) => console.error('Error fetching Competitions:', error));
   }, []);
+   
   
-  
-  
-  // useEffect(() => {
-  //   let intervalId;
-
-  //   if (countDown) {
-  //     intervalId = setInterval(() => {
-  //       const now = new Date().getTime();
-  //       const distance = countDown - now;
-
-  //       if (distance <= 0) {
-  //         clearInterval(intervalId);
-  //         setCountDown(null);
-  //       } else {
-  //         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  //         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  //         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  //         setCountDown(`${hours}h ${minutes}m ${seconds}s`);
-  //       }
-  //     }, 1000);
-  //   }
-
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [countDown]);
 
   const handleVote = async (photo) => {
     
@@ -65,6 +39,9 @@ const ActiveCompetitions = () => {
         });
 
         if (response.ok) {
+          const data = await response.json();
+          const updated_user = data.user;
+          login(updated_user);
           //Patch to competition photo to increment vote count
           const voteRes = await fetch(`/api/vote/${photo.id}`, {
             method: 'PATCH',
@@ -93,7 +70,7 @@ const ActiveCompetitions = () => {
 
 
 
-          login(response.user);
+          console.log(user)
           handleCloseModal();
           
         } else {

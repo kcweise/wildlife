@@ -328,7 +328,7 @@ class Vote(Resource):
             
             if updated_user:
                 return make_response(jsonify({"message": "Vote submitted successfully", 
-                                              "user": updated_user.to_dict(rules = ("-user_posted_ratings.user",))}), 200)
+                                              "user": updated_user.to_dict()}), 200)
             else:
                 return jsonify({"message": "User not found"}), 404
             
