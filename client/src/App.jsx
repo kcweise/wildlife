@@ -17,7 +17,7 @@ import './App.css'
 function App() {
   
   return (
-    <>
+    
       <AuthProvider>
           <div className="app">
             <NavBar />
@@ -38,7 +38,7 @@ function App() {
             </Routes>
           </div>
       </AuthProvider>
-    </>
+    
   );
 }
 

@@ -45,15 +45,16 @@ class Signup(Resource):
 
     def post(self):
 
-        request_json = request.get_json()
+        data = request.get_json()
 
-        first_name = request_json.get("first_name")
-        last_name = request_json.get("last_name")
-        username = request_json.get("username")
-        password = request_json.get("password")
-        phone = request_json.get("phone")
-        email = request_json.get("email")
-        #created_date = request_json.get(
+        first_name = data.get("first_name")
+        last_name = data.get("last_name")
+        username = data.get("username")
+        password = data.get("password")
+        phone = data.get("phone")
+        email = data.get("email")
+        
+        
 
 
         user = User(
@@ -70,9 +71,9 @@ class Signup(Resource):
             db.session.add(user)
             db.session.commit()
 
-            session["user_id"] = user.id  # session is a dictionary that stores user_id
+            #session["user_id"] = user.id  # session is a dictionary that stores user_id
 
-            return user.to_dict(rules = ("-user_posted_ratings.user",)), 201
+            return make_response(user.to_dict(), 201)
 
         except IntegrityError:
 

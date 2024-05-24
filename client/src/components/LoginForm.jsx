@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../UserContext";
 import {TextField, Button, Container, Typography, Box} from '@mui/material';
 import UserPage from '../pages/UserPage'
+import RegistrationForm from './RegistrationForm';
 
 
 function LoginForm() {
@@ -10,6 +11,7 @@ function LoginForm() {
   const { login } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showRegistration, setShowRegistration] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e)=>{
@@ -41,6 +43,11 @@ function LoginForm() {
     }   
   };
 
+    // Function to toggle between login and registration forms
+    const toggleRegistration = () => {
+      setShowRegistration(!showRegistration);
+    };
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -53,48 +60,55 @@ function LoginForm() {
         }}
       >
         <Typography component="h1" variant="h5">
-          Login
+          {showRegistration ? '' : 'Login'}
         </Typography>
-        <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            autoComplete="username"
-            autoFocus
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Login
-          </Button>
-        </Box>
+        {showRegistration ? (
+          <RegistrationForm /> // Render RegistrationForm component if showRegistration is true
+        ) : (
+          <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Login
+            </Button>
+          </Box>
+        )}
+        {/* Button to toggle between login and registration forms */}
+        <Button onClick={toggleRegistration}>
+          {showRegistration ? 'Back to Login' : 'Register'}
+        </Button>
       </Box>
     </Container>
   );
-};
-
+}
 export default LoginForm;

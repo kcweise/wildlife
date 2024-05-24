@@ -1,26 +1,41 @@
-import React from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, Typography, Grid } from '@mui/material';
+import { useAuth } from "../../UserContext";
+import PCompPhotoDetail from './PCompPhotoDetail';
 
-const PastCompetitions = ({ competitions }) => {
+const PastCompetitions = () => {
+  const { modifyPhotoURL } = useAuth();
+  const [competitions, setCompetitions] = useState([]);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-  //Dynamically changing relative file path.
-  const modifyPhotoURL = (competitionPhoto) =>{
-    
-    return competitionPhoto.photo.photo_url.replace(`../../../`, `../../`);
-  } 
+  useEffect(() => {
+    fetch('/api/competitions')
+      .then((res) => res.json())
+      .then((data) => {
+        setCompetitions(data.past_competitions);
+      })
+      .catch((error) => console.error('Error fetching Competitions:', error));
+  }, []);
 
+  console.log(competitions)
 
+  const handleOpenModal = (photo) => {
+    setSelectedPhoto(photo);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedPhoto(null);
+  };
 
   return (
     <section>
       <Typography variant="h4" gutterBottom>
         Past Competitions
       </Typography>
-      <div className="card-container">
-        {competitions.map((comp) => {
-          const winnerPhoto = comp.competition_photos.reduce((prev, current) => (prev.votes > current.votes ? prev : current), {});
-          return (
-            <Card key={comp.id} className="card">
+      <Grid container spacing={2}>
+        {competitions.map((comp) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={comp.id}>
+            <Card>
               <CardContent>
                 <Typography variant="h5" component="div">
                   {comp.name}
@@ -37,17 +52,30 @@ const PastCompetitions = ({ competitions }) => {
                 <Typography variant="h6" component="div">
                   Winner Photo:
                 </Typography>
-                {winnerPhoto && (
-                  <div className="photo-card">
-                    <img src={winnerPhoto.image_url} alt={`Photo ${winnerPhoto.id}`} />
-                    <Typography variant="body2">Votes: {winnerPhoto.votes}</Typography>
+                {comp.winner_photo ? (
+                  <div className="photo-card" onClick={() => handleOpenModal(comp.winner_photo)}>
+                    <img 
+                      src={modifyPhotoURL(comp.winner_photo)} 
+                      alt={`Photo ${comp.winner_photo.id}`}
+                      style={{ width: '100%', height: 'auto' }} 
+                    />
+                    <Typography variant="body2">Votes: {comp.winner_photo.votes}</Typography>                        
                   </div>
+                ) : (
+                  <Typography variant="body2">No winner selected</Typography>
                 )}
               </CardContent>
             </Card>
-          );
-        })}
-      </div>
+          </Grid>
+        ))}
+      </Grid>
+      {selectedPhoto && (
+        <PCompPhotoDetail 
+          photo={selectedPhoto} 
+          open={selectedPhoto !== null} 
+          onClose={handleCloseModal}         
+        />
+      )}  
     </section>
   );
 };

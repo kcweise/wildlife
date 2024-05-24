@@ -3,8 +3,10 @@ from config import db
 from sqlalchemy_serializer import SerializerMixin
 from datetime import datetime, timedelta
 from sqlalchemy.orm import validates
+import re
 
-
+def get_current_time():
+    return datetime.now().replace(microsecond=0)
 class User (db.Model, SerializerMixin):
     __tablename__= "users"
     
@@ -15,7 +17,7 @@ class User (db.Model, SerializerMixin):
     password = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
-    created_date = db.Column(db.DateTime, default=datetime.now )
+    created_date = db.Column(db.DateTime, default=get_current_time )
     
     #Relationships
     user_photos = db.relationship("Photo", back_populates="user", cascade="all, delete-orphan")

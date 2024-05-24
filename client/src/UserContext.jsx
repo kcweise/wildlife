@@ -1,38 +1,33 @@
 
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { useCookies } from "react-cookie";
+
 
 // Creating LoginContext to store login
 const LoginContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [cookies, setCookie, removeCookie] = useCookies(["isLoggedIn", "user"]);
-
-    // useEffect(() => {
-    //     const initialIsLoggedIn = cookies.isLoggedIn === "true";
-    //     const initialUser = cookies.user ? JSON.parse(cookies.user) : null;
-    //     setIsLoggedIn(initialIsLoggedIn);
-    //     setUser(initialUser);
-    //   }, []);
-
-
-
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        const storedUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+        setIsLoggedIn(storedIsLoggedIn);
+        setUser(storedUser);
+    }, []);
 
     const login = (userData) => {
         setIsLoggedIn(true);
         setUser(userData);
-        setCookie("isLoggedIn", "true", { path: "/"});
-        setCookie("user", JSON.stringify(userData), { path: "/"});
-
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("user", JSON.stringify(userData));
     };
 
     const logout = () => {
         setIsLoggedIn(false);
         setUser(null);
-        removeCookie("isLoggedIn", { path: "/" });
-        removeCookie("user", { path: "/" });
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("user");
     };
 
     return (
