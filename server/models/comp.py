@@ -17,10 +17,10 @@ class Competition(db.Model, SerializerMixin):
     
     #Relationships
     competition_photos = db.relationship("CompetitionPhoto", foreign_keys="CompetitionPhoto.competition_id",
-                                         back_populates="competition")
+                                            back_populates="competition")
     
     #Serializer Rules
-    serialize_rules = ("-competition_photos.competition", )
+    serialize_rules = ("-competition_photos.competition", "competition_photos.photo.photo_url" )
     
     @validates('start_date', 'end_date')
     def validate_date_time(self, key, date_time):

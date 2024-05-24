@@ -72,7 +72,7 @@ class Signup(Resource):
 
             session["user_id"] = user.id  # session is a dictionary that stores user_id
 
-            return user.to_dict(), 201
+            return user.to_dict(rules = ("-user_posted_ratings.user",)), 201
 
         except IntegrityError:
 
@@ -121,8 +121,10 @@ class EnterCompetitionPhoto(Resource):
         photo = Photo.query.get(photo_id)
         if not photo:
             return make_response(jsonify({'error': 'Photo not found'}), 404)
+        
+        user_id = photo.user_id
         # Create a new competition photo entry
-        new_entry = CompetitionPhoto(competition_id=competition_id, photo_id=photo_id, )
+        new_entry = CompetitionPhoto(competition_id=competition_id, photo_id=photo_id, user_id=user_id)
 
         try:
             # Add the new entry to the database
@@ -131,7 +133,7 @@ class EnterCompetitionPhoto(Resource):
             
             updated_user = User.query.get(new_entry.photo.user_id)
 
-            return make_response(jsonify({'message': 'Photo successfully entered in the competition', 'user': updated_user.to_dict()}), 201)
+            return make_response(jsonify({'message': 'Photo successfully entered in the competition', 'user': updated_user.to_dict(rules = ("-user_posted_ratings.user",))}), 201)
         except Exception as e:
             # If an error occurs, rollback the transaction and return an error response
             db.session.rollback()
@@ -152,7 +154,7 @@ class Login(Resource):
             access_token = create_access_token(identity = {'username': user.username})
             refresh_token = create_refresh_token(identity = {'username': user.username})
             
-            response = make_response(jsonify ({'msg': 'Login Successful', 'user': user.to_dict(rules = ('-user_photos.user',))}), 200)
+            response = make_response(jsonify ({'msg': 'Login Successful', 'user': user.to_dict(rules = ('-user_photos.user',"-user_posted_ratings.user",))}), 200)
             set_access_cookies(response, access_token)
             set_refresh_cookies(response, refresh_token)
             return response
@@ -228,7 +230,7 @@ class PhotosByUserId(Resource):
             
             updated_user = User.query.get(id)
             
-            return make_response(updated_user.to_dict(), 201)
+            return make_response(updated_user.to_dict(rules = ("-user_posted_ratings.user",)), 201)
         
         except ValueError:
             return make_response({"error": ["Validation errors"]}, 400)
@@ -274,7 +276,7 @@ class PhotosById(Resource):
             if not updated_user:
                 return make_response({"error": "User not found"}, 404)
             
-            return make_response({"message": "Photo updated", "user": updated_user.to_dict()}, 200)
+            return make_response({"message": "Photo updated", "user": updated_user.to_dict(rules = ("-user_posted_ratings.user",))}, 200)
 
         except ValueError:
             return ({"errors": ["validation errors"]}, 400)
@@ -295,15 +297,70 @@ class PhotosById(Resource):
             if not updated_user:
                 return make_response({"error": "User not found"}, 404)
             
-            return make_response({"message": "Photo deleted", "user": updated_user.to_dict()}, 200)
+            return make_response({"message": "Photo deleted", "user": updated_user.to_dict(rules = ("-user_posted_ratings.user",))}, 200)
 
         except Exception as e:
             print(f"Error deleting photo: {str(e)}")
             return ({"errors": ["validation errors"]}, 400)
         
 api.add_resource(PhotosById, "/photos/<int:id>")
+
+class Vote(Resource):
+    def post(self):
+                
+        data = request.get_json()
+        
+        id = data.get('user_id')
+        
+        try:
+            new_rating = Rating(
+            rating = 1,
+            created_at=datetime.now(),
+            comp_photo_id = data.get('photo_id'),
+            user_rated_id= data.get('user_id'),
+            )
+            
+            
+            db.session.add(new_rating)
+            db.session.commit()
+            
+            updated_user = User.query.get(id)
+            
+            if updated_user:
+                return make_response(jsonify({"message": "Vote submitted successfully", 
+                                              "user": updated_user.to_dict(rules = ("-user_posted_ratings.user",))}), 200)
+            else:
+                return jsonify({"message": "User not found"}), 404
+            
+        except Exception as e:
+            return jsonify({"message": f"Error submitting vote: {str(e)}"}), 500
+        
+api.add_resource(Vote, '/ratings')
  
- 
+class CompVoting(Resource):
+    
+    def patch(self, id):
+        
+        
+        competition_photo = CompetitionPhoto.query.filter_by(id=id).first()
+
+        if not competition_photo:
+            return make_response({"error": "photo not found"}, 404)
+
+        try:
+                          
+            competition_photo.votes +=1
+            
+            db.session.commit()
+            
+            return make_response({"message": "Photo updated", "competition_photo": competition_photo.to_dict()}, 200)
+
+        except Exception as e:
+            return make_response({"errors": [str(e)]}, 400)
+        
+api.add_resource(CompVoting, '/vote/<int:id>')
+        
+        
         
     
     

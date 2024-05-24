@@ -22,4 +22,4 @@ class CompetitionPhoto(db.Model, SerializerMixin):
     competition_photo_ratings = db.relationship("Rating", back_populates="competition_photos", cascade="all, delete-orphan")
     
     #Serializer Rules
-    serialize_rules = ("-user.user_comp_photos","-photo.competition_photo", "-competition.competition_photos", "-competition_photo_ratings.competition_photos", )
+    serialize_rules = ("-user", "-competition.competition_photos", "-photo", "-competition_photo_ratings.competition_photos",  )
