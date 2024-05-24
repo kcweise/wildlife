@@ -10,7 +10,7 @@ const ActiveCompetitions = () => {
   const { isLoggedIn, user, login } = useAuth();
   const [competitions, setCompetitions] = useState([])
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [countDown, setCountDown] = useState(null);
+  //const [countDown, setCountDown] = useState(null);
 
   useEffect(() => {
     fetch('/api/competitions')
@@ -51,31 +51,7 @@ const ActiveCompetitions = () => {
   // }, [countDown]);
 
   const handleVote = async (photo) => {
-    // Check if the user has voted in the competition in the last 24 hours
-    // const hasVotedRecently = user.user_posted_ratings.some(rating => {
-    //   const ratingDate = new Date(rating.created_at);
-    //   const currentDate = new Date();
-    //   const timeDifference = currentDate - ratingDate;
-    //   const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-    //   return hoursDifference < 24;
-    // });
-
-    // if (hasVotedRecently) {
-    //   // Display a message indicating when the user can vote again
-    //   const lastVoteRating = user.user_posted_ratings.find(rating => {
-    //     const ratingDate = new Date(rating.created_at);
-    //     const currentDate = new Date();
-    //     const timeDifference = currentDate - ratingDate;
-    //     const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-    //     return hoursDifference < 24;
-    //   });
-
-    //   const lastVoteTime = new Date(lastVoteRating.created_at);
-    //   const nextVoteTime = new Date(lastVoteTime.getTime() + 24 * 60 * 60 * 1000);
-    //   setCountDown(nextVoteTime.getTime());
-      
-    // } else {
-      
+    
       try {
         const response = await fetch('/api/ratings', {
           method: 'POST',

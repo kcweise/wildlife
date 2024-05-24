@@ -2,6 +2,15 @@ import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
 const PastCompetitions = ({ competitions }) => {
+
+  //Dynamically changing relative file path.
+  const modifyPhotoURL = (competitionPhoto) =>{
+    
+    return competitionPhoto.photo.photo_url.replace(`../../../`, `../../`);
+  } 
+
+
+
   return (
     <section>
       <Typography variant="h4" gutterBottom>
