@@ -3,11 +3,14 @@ from sqlalchemy_serializer import SerializerMixin
 from datetime import datetime, timedelta
 from sqlalchemy.orm import validates
 
+def get_current_time():
+    return datetime.now().replace(microsecond=0)
+
 class Photo(db.Model, SerializerMixin):
     __tablename__="photos"
     
     id = db.Column(db.Integer, primary_key=True)
-    post_date_time = db.Column(db.DateTime, default=datetime.now)
+    post_date_time = db.Column(db.DateTime, default=get_current_time)
     taken_date_time = db.Column(db.DateTime, nullable=True)
     title = db.Column(db.String, nullable=True)
     animal = db.Column(db.String, nullable=True )

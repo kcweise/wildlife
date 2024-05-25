@@ -26,13 +26,9 @@ function Dashboard() {
     <div>
       <List component="nav">
         <ListItem button component={Link} to="photos">
-          <ListItemText primary="Photos" />
+          <ListItemText primary="Display Photos" />
         </ListItem>
-        <Divider />
-        <ListItem button component={Link} to="users-list">
-          <ListItemText primary="Users List" />
-        </ListItem>
-        <Divider />
+        <Divider />        
         <ListItem button component={Link} to="load-photos">
           <ListItemText primary="Load Photos" />
         </ListItem>
@@ -40,6 +36,10 @@ function Dashboard() {
         <ListItem button component={Link} to="current-competitions">
           <ListItemText primary="Current Competitions" />
         </ListItem>
+        <Divider />
+        <ListItem button component={Link} to="edit-profile">
+          <ListItemText primary="Edit Profile" />
+        </ListItem>   
         <Divider />
       </List>
     </div>

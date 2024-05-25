@@ -3,13 +3,16 @@ from sqlalchemy_serializer import SerializerMixin
 from datetime import datetime, timedelta
 from sqlalchemy.orm import validates
 
+def get_current_time():
+    return datetime.now().replace(microsecond=0)
+
 class Rating(db.Model, SerializerMixin):
     __tablename__="ratings"
     
     id = db.Column(db.Integer, primary_key=True)
     rating = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String, nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    created_at = db.Column(db.DateTime, nullable=False, default=get_current_time)
     
     #Foreign Keys
     comp_photo_id = db.Column(db.Integer, db.ForeignKey("competition_photos.id"))

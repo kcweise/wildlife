@@ -1,1 +1,0 @@
-DELETE FROM Competition_Photos;

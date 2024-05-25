@@ -7,7 +7,7 @@ import LoginForm from "./components/LoginForm";
 import RegistrationForm from "./components/RegistrationForm";
 import UserPage from "./pages/UserPage";
 import Photos from './components/userpage_components/Photos';
-import UsersList from './components/userpage_components/UsersList';
+import EditProfile from './components/userpage_components/EditProfile';
 import LoadPhotos from './components/userpage_components/LoadPhotos';
 import CurrentCompetitions from './components/userpage_components/CurrentCompetitions';
 import NotFoundPage from './components/NotFoundPage';
@@ -30,7 +30,7 @@ function App() {
                 {/*Nested routes to persist on user page*/}
                 <Route index element={<Photos />} />
                 <Route path="photos" element={<Photos />} />
-                <Route path="users-list" element={<UsersList />} />
+                <Route path="edit-profile" element={<EditProfile />} />
                 <Route path="load-photos" element={<LoadPhotos />} />
                 <Route path="current-competitions" element={<CurrentCompetitions />} />
               </Route>
