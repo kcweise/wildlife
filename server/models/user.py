@@ -18,7 +18,7 @@ class User (db.Model, SerializerMixin):
     phone = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     created_date = db.Column(db.DateTime, default=get_current_time)
-    public_private = db.Column(db.Integer, nullable=False, default=0)
+    public_private = db.Column(db.Integer, default=0)
     
     #Relationships
     user_photos = db.relationship("Photo", back_populates="user", cascade="all, delete-orphan")

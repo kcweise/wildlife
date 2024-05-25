@@ -9,4 +9,4 @@ INSERT INTO Competition_Photos (votes, competition_id, user_id, photo_id) VALUES
 (8, 1, 8, 78),
 (2, 2, 6, 69),
 (0, 1, 7, 84),
-(4, 2, 2, 17),
+(4, 2, 2, 17)
