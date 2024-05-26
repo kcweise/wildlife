@@ -82,6 +82,33 @@ class Signup(Resource):
 
 api.add_resource(Signup, "/signup", endpoint="signup")
 
+class UserById(Resource):
+ 
+    def patch(self, id):
+        user = User.query.filter_by(id=id).first()
+
+        if not user:
+            return make_response({"error": "user not found"}, 404)
+
+        try:
+            data = request.get_json()
+            for attr in data:
+                setattr(user, attr, data.get(attr))
+                          
+            db.session.commit()
+            
+            updated_user = User.query.get(id)
+            
+            if not updated_user:
+                return make_response({"error": "User not found"}, 404)
+            
+            return make_response({"message": "User updated", "user": updated_user.to_dict()}, 200)
+
+        except ValueError:
+            return ({"errors": ["validation errors"]}, 400)
+        
+api.add_resource(UserById, "/user/<int:id>")
+
 
 
 class Competitions(Resource):
