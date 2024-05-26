@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, 
+  Dialog, DialogContent, DialogActions, DialogTitle  } from '@mui/material';
 import { useAuth } from "../UserContext";
 import { Login } from '@mui/icons-material';
 
 function RegistrationForm() {
   const { login } = useAuth()
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
+  
+  const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
+  const phoneRegex = /^\(\d{3}\)-\d{3}-\d{4}$/;
 
   const [userData, setUserData] = useState({
     first_name: '',
@@ -26,6 +33,18 @@ function RegistrationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!emailRegex.test(userData.email)) {
+      setDialogMessage("Invalid email format. Please enter a valid email.");
+      setDialogOpen(true);
+      return;
+  }
+
+  if (!phoneRegex.test(userData.phone)) {
+      setDialogMessage("Invalid phone format. Please use the format (XXX)-XXX-XXXX.");
+      setDialogOpen(true);
+      return;
+  }
+
     try {
       const response = await fetch('/api/signup', {
         method: 'POST',
@@ -38,6 +57,7 @@ function RegistrationForm() {
       if (response.ok) {
         const newUser = await response.json()
         login(newUser);
+        setSuccessDialogOpen(true);
         
 
         // Registration successful, handle the success case (e.g., redirect to login)
@@ -47,6 +67,14 @@ function RegistrationForm() {
     } catch (error) {
       console.error('Error during registration', error);
     }
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
+const handleSuccessDialogClose = () => {
+    setSuccessDialogOpen(false);
   };
 
   return (
@@ -147,6 +175,25 @@ function RegistrationForm() {
             Register
           </Button>
         </Box>
+        <Dialog open={dialogOpen} onClose={handleDialogClose}>
+                <DialogTitle>Error</DialogTitle>
+                <DialogContent>
+                    {dialogMessage}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleDialogClose} color="primary">OK</Button>
+                </DialogActions>
+          </Dialog>
+
+          <Dialog open={successDialogOpen} onClose={handleSuccessDialogClose}>
+                <DialogTitle>Success</DialogTitle>
+                <DialogContent>
+                    Registered successfully.
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleSuccessDialogClose} color="primary">OK</Button>
+                </DialogActions>
+          </Dialog>
       </Box>
     </Container>
   );
