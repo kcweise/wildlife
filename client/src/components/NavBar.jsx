@@ -63,6 +63,14 @@ const NavBar = ()=> {
           >
             About
           </Button>
+          <Button
+            color="inherit"
+            className={classes.navButton}
+            component={NavLink}
+            to="/public"
+          >
+            Public Pictures
+          </Button>
           {isLoggedIn && user ? (
             <>
               <Button

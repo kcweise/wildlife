@@ -82,6 +82,22 @@ class Signup(Resource):
 
 api.add_resource(Signup, "/signup", endpoint="signup")
 
+
+class PublicUsers(Resource):
+    def get(self):
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        users = User.query.filter_by(public_private=1).paginate(page=page, per_page=per_page, error_out=False)
+
+        return jsonify({
+            'total': users.total,
+            'pages': users.pages,
+            'current_page': users.page,
+            'users': [user.to_dict(rules = ("-user_photos.user", "-user_posted_ratings",)) for user in users.items]
+        })
+    
+api.add_resource(PublicUsers, "/public_users")
+
 class UserById(Resource):
  
     def patch(self, id):
