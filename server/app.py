@@ -133,8 +133,8 @@ class Competitions(Resource):
         comps = Competition.query.all()
         
         if comps:
-            past_comps = [comp.to_dict() for comp in comps if comp.end_date <
-                            current_datetime]
+            past_comps = [comp.to_dict() 
+                          for comp in comps if comp.end_date < current_datetime]
             active_comps = [comp.to_dict() for comp in comps if comp.start_date <= 
                             current_datetime <= comp.end_date]
             future_comps = [comp.to_dict() for comp in comps if comp.start_date >

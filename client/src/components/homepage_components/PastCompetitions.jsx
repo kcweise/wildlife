@@ -4,7 +4,6 @@ import { useAuth } from "../../UserContext";
 import PCompPhotoDetail from './PCompPhotoDetail';
 
 const PastCompetitions = () => {
-  const { modifyPhotoURL } = useAuth();
   const [competitions, setCompetitions] = useState([]);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
@@ -12,20 +11,53 @@ const PastCompetitions = () => {
     fetch('/api/competitions')
       .then((res) => res.json())
       .then((data) => {
-        setCompetitions(data.past_competitions);
+
+        const processedCompetitions = data.past_competitions.map(comp => {
+          if (comp.competition_photos.length > 0) {
+            const winningPhoto = comp.competition_photos.reduce((max, photo) => 
+              photo.votes > max.votes ? photo : max, comp.competition_photos[0]
+            );
+            console.log(comp.start_date)
+            return {
+              ...comp,
+              winner_photo_url: winningPhoto.photo.photo_url,
+              winner_photo_votes: winningPhoto.votes,
+              winner_photo_title: winningPhoto.photo.title,
+              start_date: comp.start_date,
+              end_date: comp.end_date,
+
+            };
+          }
+          return {
+            ...comp,
+            start_date: comp.start_date,
+            end_date: comp.end_date,
+          };
+        });
+        setCompetitions(processedCompetitions);
+        console.log(competitions)
       })
       .catch((error) => console.error('Error fetching Competitions:', error));
   }, []);
 
-  console.log(competitions)
 
   const handleOpenModal = (photo) => {
+    console.log(photo)
     setSelectedPhoto(photo);
   };
 
   const handleCloseModal = () => {
     setSelectedPhoto(null);
   };
+
+    //Dynamically changing relative file path.
+    const modifyPhotoURL = (competitionPhoto) =>{
+      if (competitionPhoto.startsWith('../../../'))
+        return competitionPhoto.replace(`../../../`, `../../`);
+      else 
+        return competitionPhoto;
+    };
+  
 
   return (
     <section>
@@ -52,14 +84,14 @@ const PastCompetitions = () => {
                 <Typography variant="h6" component="div">
                   Winner Photo:
                 </Typography>
-                {comp.winner_photo ? (
-                  <div className="photo-card" onClick={() => handleOpenModal(comp.winner_photo)}>
+                {comp.winner_photo_url ? (
+                  <div className="photo-card" onClick={() => handleOpenModal(comp.winner_photo_url)}>
                     <img 
-                      src={modifyPhotoURL(comp.winner_photo)} 
-                      alt={`Photo ${comp.winner_photo.id}`}
+                      src={modifyPhotoURL(comp.winner_photo_url)} 
+                      alt={`Winning Photo`}
                       style={{ width: '100%', height: 'auto' }} 
                     />
-                    <Typography variant="body2">Votes: {comp.winner_photo.votes}</Typography>                        
+                    <Typography variant="body2">Votes: {comp.winner_photo_votes}</Typography>                        
                   </div>
                 ) : (
                   <Typography variant="body2">No winner selected</Typography>

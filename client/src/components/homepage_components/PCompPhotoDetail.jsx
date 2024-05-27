@@ -7,16 +7,16 @@ const PCompPhotoDetail = ({ photo, open, onClose }) => {
 
     // Dynamically changing relative file path.
     const modifyPhotoURL = (competitionPhoto) => {
-        if (competitionPhoto.photo.photo_url.startsWith('../../../'))
-          return competitionPhoto.photo.photo_url.replace(`../../../`, `../../`);
+        if (competitionPhoto.startsWith('../../../'))
+          return competitionPhoto.replace(`../../../`, `../../`);
         else 
-          return competitionPhoto.photo.photo_url;
+          return competitionPhoto;
       };
 
     return (
         <>
           <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
-            <DialogTitle>{photo ? photo.photo.title : 'Untitled'}</DialogTitle>
+            <DialogTitle>{photo.title ? photo.title : 'Untitled'}</DialogTitle>            
             <DialogContent style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               {photo && (
                 <img 
