@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 ipdb = "0.13.9"
+gunicorn = "*"
+honcho = "*"
 flask = "*"
 flask-sqlalchemy = "3.0.3"
 Werkzeug = "2.2.2"
@@ -14,9 +16,8 @@ flask-restful = "*"
 flask-cors = "*"
 faker = "*"
 datetime = "*"
-sqlalchemy.orm = "*"
 flask_jwt_extended = "*"
-sqlalchemy.exc = "*"
+sqlalchemy = {exc = "*"}
 
 [requires]
 python_full_version = "3.8.13"
