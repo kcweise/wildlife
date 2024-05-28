@@ -10,15 +10,15 @@ In root directory run: pipenv install
 
 In root directory run: pipenv shell
 
-cd into server: cd server
+Navigate into server: cd server
 
-while in server run: flask db upgrade
+In server run: flask db upgrade
 
-while in server run: sqlite3 app.db < seed/gen.sql
+In server run: sqlite3 app.db < seed/gen.sql
 
-navigate to root directory: cd ..
+Navigate to root directory: cd ..
 
-while in root directory run: honcho start
+In root directory run: honcho start
 
 
 ## Description
