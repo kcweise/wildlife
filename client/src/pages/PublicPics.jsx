@@ -2,23 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, Box, Grid, Card, CardContent, CardMedia, Button, Pagination } from '@mui/material';
 
 const UserList = () => {
-    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState(null);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
-        fetchUsers(page);
+        fetchUser(page);
     }, [page]);
 
-    const fetchUsers = async (page) => {
+    const fetchUser = async (page) => {
         try {
-            const response = await fetch(`/api/public_users?page=${page}`);
+            const response = await fetch(`/api/public_users?page=${page}&per_page=1`);
             const data = await response.json();
-            console.log(data);
-            setUsers(data.users);
-            setTotalPages(data.pages);
+            if (data.users.length > 0){
+                setUser(data.users[0]);
+                setTotalPages(data.pages);
+            } else {
+                setUser(null);
+                setTotalPages(1);
+            }
         } catch (error) {
-            console.error('Error fetching users:', error);
+            console.error('Error fetching user:', error);
         }
     };
 
@@ -33,14 +37,14 @@ const UserList = () => {
           return photo.photo_url;
       };
 
-    return (
+      return (
         <Container>
             <Typography variant="h4" gutterBottom>
-                Public Users and Their Photos
+                Public User and Their Photos
             </Typography>
-            <Grid container spacing={4}>
-                {users.map((user) => (
-                    <Grid item key={user.id} xs={12} sm={6} md={4}>
+            {user ? (
+                <Grid container spacing={4}>
+                    <Grid item xs={12}>
                         <Card>
                             <CardContent>
                                 <Typography gutterBottom variant="h5" component="div">
@@ -53,8 +57,12 @@ const UserList = () => {
                                     {user.email}
                                 </Typography>
                             </CardContent>
-                            <Box>
-                                {user.user_photos.map((photo) => (
+                        </Card>
+                    </Grid>
+                    <Grid container item xs={12} spacing={2}>
+                        {user.user_photos.map((photo) => (
+                            <Grid item xs={12} sm={6} md={3} key={photo.id}>
+                                <Card>
                                     <CardMedia
                                         key={photo.id}
                                         component="img"
@@ -63,12 +71,21 @@ const UserList = () => {
                                         image={modifyPhotoURL(photo)}
                                         title={user.username}
                                     />
-                                ))}
-                            </Box>
-                        </Card>
+                                    <CardContent>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            {photo.description || 'No description'}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
+                </Grid>
+            ) : (
+                <Typography variant="body2" color="textSecondary">
+                    No user found
+                </Typography>
+            )}
             <Box my={4} display="flex" justifyContent="center">
                 <Pagination
                     count={totalPages}
