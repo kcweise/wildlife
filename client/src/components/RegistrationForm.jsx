@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, 
   Dialog, DialogContent, DialogActions, DialogTitle  } from '@mui/material';
 import { useAuth } from "../UserContext";
-import { Login } from '@mui/icons-material';
 
 function RegistrationForm() {
   const { login } = useAuth()

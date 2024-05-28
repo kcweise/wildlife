@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Button, Grid } from '@mui/material';
+import { Paper, CardContent, Typography, Button, Grid } from '@mui/material';
 import { useAuth } from "../../UserContext";
 import ACompPhotoDetail from './ACompPhotoDetail';
 
@@ -112,8 +112,9 @@ const ActiveCompetitions = () => {
       <Grid container spacing={2}>
         {competitions.map((comp) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={comp.id}>
-            <Card>
-              <CardContent>
+            <Paper elevtation={5} style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 
+            'space-between',  border: '3px solid #ccc',  borderRadius: '10px',  overflow: 'hidden'}}>
+              <CardContent style ={{flexGrow: 1}}>
                 <Typography variant="h5" component="div">
                   {comp.name}
                 </Typography>
@@ -147,7 +148,7 @@ const ActiveCompetitions = () => {
                   ))}
                 </Grid>
               </CardContent>
-            </Card>
+            </Paper>
           </Grid>
         ))}
       </Grid>

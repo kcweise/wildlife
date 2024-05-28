@@ -67,7 +67,8 @@ const PastCompetitions = () => {
       <Grid container spacing={2}>
         {competitions.map((comp) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={comp.id}>
-            <Card>
+            <Card style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 
+            'space-between',  border: '3px solid #ccc',  borderRadius: '10px',  overflow: 'hidden'}}>
               <CardContent>
                 <Typography variant="h5" component="div">
                   {comp.name}

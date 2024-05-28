@@ -44,7 +44,7 @@ const AboutPage = () => {
 
           Welcome to the Wildlife Photos page! Discover stunning wildlife photographs from around the world, 
           captured by talented photographers. Join our frequent Wildlife Photo Competitions, held every few days! 
-          Submit your best shots for a chance to and have your work featured on our site. Explore past entries and 
+          Submit your best shots for a chance to win and have your work featured on our site. Explore past entries and 
           get ready to participate in the upcoming contests. Celebrate the beauty of wildlife with us!
           </Typography>
         </Container>
