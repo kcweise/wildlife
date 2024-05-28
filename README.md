@@ -2,6 +2,25 @@
 
 <!--Headings-->
 
+## Startup Instructions
+
+In root directory run: npm install --force  
+
+In root directory run: pipenv install
+
+In root directory run: pipenv shell
+
+cd into server: cd server
+
+while in server run: flask db upgrade
+
+while in server run: sqlite3 app.db < seed/gen.sql
+
+navigate to root directory: cd ..
+
+while in root directory run: honcho start
+
+
 ## Description
 
 Wildlife Pics is a web application that allows users to organize their wildlife photos, manage accessibility, and compete in public rating competition.
