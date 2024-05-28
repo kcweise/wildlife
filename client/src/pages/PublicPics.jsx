@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, Box, Grid, Card, CardContent, CardMedia, Button, Pagination } from '@mui/material';
+import { Container, Typography, Box, Grid, Card, CardContent, 
+    CardMedia, Dialog, Pagination, DialogTitle, DialogContent, 
+    Button, DialogActions } from '@mui/material';
 
 const UserList = () => {
     const [user, setUser] = useState(null);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [open, setOpen] = useState(false);
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
 
     useEffect(() => {
         fetchUser(page);
@@ -37,6 +41,17 @@ const UserList = () => {
           return photo.photo_url;
       };
 
+
+    const handleClickOpen = (photo) => {
+        setSelectedPhoto(photo);
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+        setSelectedPhoto(null);
+    };
+
       return (
         <Container>
             <Typography variant="h4" gutterBottom>
@@ -62,7 +77,7 @@ const UserList = () => {
                     <Grid container item xs={12} spacing={2}>
                         {user.user_photos.map((photo) => (
                             <Grid item xs={12} sm={6} md={3} key={photo.id}>
-                                <Card>
+                                <Card onClick={() => handleClickOpen(photo)}>
                                     <CardMedia
                                         key={photo.id}
                                         component="img"
@@ -94,6 +109,23 @@ const UserList = () => {
                     color="primary"
                 />
             </Box>
+            <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+                <DialogTitle>{selectedPhoto?.description || 'Photo'}</DialogTitle>
+                <DialogContent>
+                    {selectedPhoto && (
+                        <img
+                            src={modifyPhotoURL(selectedPhoto)}
+                            alt={user.username}
+                            style={{ width: '100%', height: 'auto' }}
+                        />
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     );
 };

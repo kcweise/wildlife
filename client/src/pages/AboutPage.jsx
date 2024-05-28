@@ -41,7 +41,11 @@ const AboutPage = () => {
             About Page
           </Typography>
           <Typography variant="body1" className={classes.content} >
-            Welcome to the Wildlife Photos page! Here, you can explore a stunning collection of wildlife photographs captured by talented photographers from around the world. Our mission is to showcase the beauty and diversity of wildlife through captivating images. Whether you're an avid nature enthusiast or just appreciate the art of photography, we hope you find inspiration and enjoyment in our gallery.
+
+          Welcome to the Wildlife Photos page! Discover stunning wildlife photographs from around the world, 
+          captured by talented photographers. Join our frequent Wildlife Photo Competitions, held every few days! 
+          Submit your best shots for a chance to and have your work featured on our site. Explore past entries and 
+          get ready to participate in the upcoming contests. Celebrate the beauty of wildlife with us!
           </Typography>
         </Container>
       </div>
