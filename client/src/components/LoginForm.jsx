@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../UserContext";
-import {TextField, Button, Container, Typography, Box} from '@mui/material';
+import {TextField, Button, Container, Typography, Box, Alert} from '@mui/material';
 import UserPage from '../pages/UserPage'
 import RegistrationForm from './RegistrationForm';
 
@@ -12,6 +12,7 @@ function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showRegistration, setShowRegistration] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e)=>{
@@ -35,11 +36,12 @@ function LoginForm() {
         navigate(`/user/${data.user.id}`);
       }
       else {
-      console.error('Login failed', response.statusText);
+        const data = await response.json();
+        setErrorMessage(data.error);
       }
-    }
-      catch (error) {
+    } catch (error) {
       console.error('Error during login', error);
+      setErrorMessage('An unexpected error occurred. Please try again later.');
     }   
   };
 
@@ -66,6 +68,11 @@ function LoginForm() {
           <RegistrationForm /> // Render RegistrationForm component if showRegistration is true
         ) : (
           <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
+            {errorMessage && (
+              <Alert severity="error" sx={{ mt: 2, mb: 2 }}>
+                {errorMessage}
+              </Alert>
+            )}
             <TextField
               variant="outlined"
               margin="normal"

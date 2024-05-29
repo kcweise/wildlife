@@ -197,7 +197,7 @@ class Login(Resource):
             set_refresh_cookies(response, refresh_token)
             return response
         
-        return jsonify({'msg': 'Bad username or password'}), 401
+        return {'error': 'Incorrect username or password'}, 401
 
 api.add_resource(Login, '/login')
 
