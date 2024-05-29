@@ -40,7 +40,7 @@ console.log(competitions)
       <Typography variant="h4" gutterBottom>
         Future Competitions
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent= "center">
         {competitions.map((comp) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={comp.id}>
             <Card style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 

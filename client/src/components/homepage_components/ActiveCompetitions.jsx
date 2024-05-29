@@ -109,7 +109,7 @@ const ActiveCompetitions = () => {
       <Typography variant="h4" gutterBottom>
         Active Competitions
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent= "center">
         {competitions.map((comp) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={comp.id}>
             <Paper elevtation={5} style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 

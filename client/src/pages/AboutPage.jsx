@@ -18,6 +18,7 @@ const useStyles = makeStyles({
     // maxWidth: "3000px", // Adjust max width as needed
     textAlign: 'center',
     padding: 0,
+    fontWeight: 'bold',
   },
   contentContainer: {
     maxWidth: 600,

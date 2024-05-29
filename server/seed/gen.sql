@@ -4,7 +4,7 @@ INSERT INTO Users (first_name, last_name, username, password, phone, email, crea
 
 ('John', 'Doe', 'johndoe', '123', '(123)-456-7890', 'john@example.com', '2023-05-17 14:25:00', 1),
 ('Jane', 'Smith', 'janesmith', '123', '(987)-654-3210', 'jane@example.com', '2022-09-02 08:45:00', 0),
-('Michael', 'Johnson', 'michaelj', '(123', '555)-123-4567', 'michael@example.com', '2020-11-18 18:30:00', 0),
+('Michael', 'Johnson', 'michaelj', '(123', '555)-123-4567', 'michael@example.com', '2020-11-18 18:30:00',1),
 ('Emily', 'Brown', 'emilyb', '123', '(333)-888-9999', 'emily@example.com', '2021-07-06 10:15:00', 1),
 ('David', 'Wilson', 'davidw', '123', '(111)-222-3333', 'david@example.com', '2024-02-29 20:00:00', 0),
 ('Sarah', 'Taylor', 'saraht', '123', '(777)-444-5555', 'sarah@example.com', '2020-03-12 03:45:00', 0),
@@ -120,14 +120,17 @@ DELETE FROM Competitions;
 
 INSERT INTO Competitions (name, start_date, end_date, description) VALUES
 
-('Best Overall Photo!', '2024-05-15 00:00:00', '2024-05-22 00:00:00', 'One week competition for best overall animal picture, enter, vote, win!'), 
-('WHOA! TOO CLOSE', '2024-05-17 00:00:00', '2024-05-24 00:00:00', 'One week competition for best animal picture that is way too close, enter, vote, win!'),
-('Cutest Picture', '2024-05-19 00:00:00', '2024-05-26 00:00:00', 'One week competition for cutest animal picture, enter, vote, win!'),
+('Best Overall Photo!', '2024-05-15 00:00:00', '2024-05-22 00:00:00', 'One week competition for best overall animal photograph, enter, vote, win!'), 
+('WHOA! TOO CLOSE', '2024-05-17 00:00:00', '2024-05-24 00:00:00', 'One week competition for best animal photograph that is way too close, enter, vote, win!'),
+('Cutest Photograph', '2024-05-19 00:00:00', '2024-05-26 00:00:00', 'One week competition for cutest animal photograph, enter, vote, win!'),
 ('Rarest Animal', '2024-05-22 00:00:00', '2024-05-29 00:00:00', 'One week competition for hard to capture or rarest animals, enter, vote, win!'),
-('Best Overall Photo!', '2024-05-24 00:00:00', '2024-05-31 00:00:00', 'One week competition for best overall animal picture, enter, vote, win!'),
-('WHOA! TOO CLOSE', '2024-05-26 00:00:00', '2024-06-02 00:00:00', 'One week competition for best animal picture that is way too close, enter, vote, win!'),
-('Cutest Picture', '2024-05-28 00:00:00', '2024-06-04 00:00:00', 'One week competition for cutest animal picture, enter, vote, win!'),
-('Rarest Animal', '2024-05-30 00:00:00', '2024-06-06 00:00:00', 'One week competition for hard to capture or rarest animals, enter, vote, win!');
+('Best Overall Photo!', '2024-05-24 00:00:00', '2024-05-31 00:00:00', 'One week competition for best overall animal photograph, enter, vote, win!'),
+('WHOA! TOO CLOSE', '2024-05-26 00:00:00', '2024-06-02 00:00:00', 'One week competition for best animal photograph that is way too close, enter, vote, win!'),
+('Cutest Photograph', '2024-05-28 00:00:00', '2024-06-04 00:00:00', 'One week competition for cutest animal photograph, enter, vote, win!'),
+('Rarest Animal', '2024-05-30 00:00:00', '2024-06-06 00:00:00', 'One week competition for hard to capture or rarest animals, enter, vote, win!'),
+('Largest Animal', '2024-06-01 00:00:00', '2024-06-08 00:00:00', 'One week competition for largest animal, enter, vote, win!'),
+('Best Nocturnal', '2024-06-03 00:00:00', '2024-06-10 00:00:00', 'One week competition for best night photograph, enter, vote, win!'),
+('Bird Brain', '2024-06-05 00:00:00', '2024-06-12 00:00:00', 'One week competition for best bird photograph, enter, vote, win!');
 
 DELETE FROM Competition_Photos;
 
