@@ -6,7 +6,7 @@ from flask_jwt_extended import (
     jwt_required, get_jwt_identity, set_access_cookies, 
     set_refresh_cookies, unset_jwt_cookies)
 from sqlalchemy.exc import IntegrityError
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Importing models triggers __init__.py to register all imports within
 from models import User, Photo, Competition, CompetitionPhoto, Rating
@@ -397,15 +397,26 @@ class CompVoting(Resource):
             return make_response({"errors": [str(e)]}, 400)
         
 api.add_resource(CompVoting, '/vote/<int:id>')
-        
-        
-        
+
+class UserVote(Resource):
+    def get(self, id, competition_id):
+        user = User.query.get(id)
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+
+        one_day_ago = datetime.utcnow() - timedelta(days=1)
+        votes = db.session.query(Rating).join(CompetitionPhoto, CompetitionPhoto.id == Rating.comp_photo_id) \
+                .join(User, User.id == Rating.user_rated_id) \
+                .filter(User.id == id, CompetitionPhoto.competition_id == competition_id, Rating.created_at > one_day_ago).all()
+
+        votes_data = [{'photo_id': vote.competition_photos.photo_id, 'competition_id': vote.competition_photos.competition_id, 'created_at': vote.created_at} for vote in votes]
+
+        return jsonify({'votes': votes_data})
+
+api.add_resource(UserVote, '/user/<int:id>/competition/<int:competition_id>/votes')
     
-    
 
-
-
-
+             
 
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@material-ui/core';
 import { useAuth } from "../../UserContext";
 
@@ -17,32 +17,37 @@ const ACompPhotoDetail = ({ photo, open, onClose, onVote, isLoggedIn }) => {
       return competitionPhoto.photo.photo_url;
   };
 
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      fetch(`/api/user/${user.id}/competition/${photo.competition_id}/votes`)
+        .then((res) => res.json())
+        .then((data) => {
+          const votes = data.votes;
+          const hasVoted = votes.some(vote => {
+            const voteDate = new Date(vote.created_at);
+            const currentDate = new Date();
+            const timeDifference = currentDate - voteDate;
+            const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+            return hoursDifference < 24 && vote.competition_id === photo.competition_id;
+          });
+
+          setHasVotedRecently(hasVoted);
+        })
+        .catch((error) => console.error('Error fetching votes:', error));
+    }
+  }, [user, isLoggedIn, photo.competition_id]);
+
   const handleVoteClick = () => {
-
-      //Check if the user has voted in the competition in the last 24 hours
-          const hasVoted = user.user_posted_ratings.some(rating => {
-          const ratingDate = new Date(rating.created_at);
-          const currentDate = new Date();
-          const timeDifference = currentDate - ratingDate;
-          const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-          return hoursDifference < 24;
-       
-    });
-
-
-      if (hasVoted) {
-        // Display the already voted dialog
-        setHasVotedRecently(true);
-        setAlreadyVotedDialogOpen(true);
-      } else {
-        onVote(photo);
-      }
-    };
+    if (hasVotedRecently) {
+      setAlreadyVotedDialogOpen(true);
+    } else {
+      onVote(photo);
+    }
+  };
   
     const handleAlreadyVotedDialogClose = () => {
       setAlreadyVotedDialogOpen(false);
     };
-
 
 
   return (
