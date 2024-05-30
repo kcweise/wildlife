@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../UserContext";
 import {TextField, Button, Container, Typography, Box, Alert} from '@mui/material';
-import UserPage from '../pages/UserPage'
 import RegistrationForm from './RegistrationForm';
 
-
+//Handles login of a user. Login sets context.  Login and secure passwords/encryption are not setup.
 function LoginForm() {
 
   const { login } = useAuth();

@@ -3,6 +3,7 @@ import { TextField, Button, Switch, FormControlLabel,
     Dialog, DialogContent, DialogActions, DialogTitle } from '@mui/material';
 import { useAuth } from '../../UserContext';
 
+// Handles editing of a user's profile. A component in dashboard.
 const EditProfile = () => {
     const { user, login } = useAuth();
     const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ const EditProfile = () => {
     const [dialogMessage, setDialogMessage] = useState("");
     const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 
+    //Same Regex as validation in User model user.py
     const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
     const phoneRegex = /^\(\d{3}\)-\d{3}-\d{4}$/;
 

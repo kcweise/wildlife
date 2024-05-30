@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, Grid } from '@mui/material';
 import { useAuth } from "../../UserContext";
 import PCompPhotoDetail from './PCompPhotoDetail';
 
+//Renders all past competitions on the home page.
 const PastCompetitions = () => {
   const [competitions, setCompetitions] = useState([]);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -12,6 +13,7 @@ const PastCompetitions = () => {
       .then((res) => res.json())
       .then((data) => {
 
+        //Takes past competitions and selects the photo that has the most votes.
         const processedCompetitions = data.past_competitions.map(comp => {
           if (comp.competition_photos.length > 0) {
             const winningPhoto = comp.competition_photos.reduce((max, photo) => 

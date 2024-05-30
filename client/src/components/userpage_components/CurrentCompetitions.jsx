@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Grid, Card, CardMedia, CardContent, Typography } from '@material-ui/core';
 import { useAuth } from '../../UserContext';
-// import PhotoDetail from './PhotoDetail';
 
+
+//Renders current competitions entered by a specific logged in user. Part of the Dashboard
 const CurrentCompetitions = () => {
   const { user } = useAuth();
 

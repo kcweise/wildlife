@@ -3,6 +3,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } 
 import { useAuth } from '../../UserContext';
 import { useNavigate } from 'react-router-dom';
 
+// Handles the editing of a photo. A component in dashboard.
 const EditPhoto = ({ photo, onClose }) => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState(photo.title);

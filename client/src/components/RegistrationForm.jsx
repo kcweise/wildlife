@@ -3,12 +3,15 @@ import { TextField, Button, Container, Typography, Box,
   Dialog, DialogContent, DialogActions, DialogTitle  } from '@mui/material';
 import { useAuth } from "../UserContext";
 
+
+//Handles registering a new user
 function RegistrationForm() {
   const { login } = useAuth()
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   
+  //Regex same as validation in user model user.py
   const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,6}$/;
   const phoneRegex = /^\(\d{3}\)-\d{3}-\d{4}$/;
 
@@ -58,8 +61,6 @@ function RegistrationForm() {
         login(newUser);
         setSuccessDialogOpen(true);
         
-
-        // Registration successful, handle the success case (e.g., redirect to login)
       } else {
         console.error('Registration failed', response.statusText);
       }

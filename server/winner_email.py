@@ -1,9 +1,8 @@
 import smtplib  # Import the smtplib module for sending emails
 from datetime import datetime, timedelta  # Import datetime and timedelta for date and time manipulation
 from apscheduler.schedulers.blocking import BlockingScheduler  # Import the BlockingScheduler from APScheduler
-from email.mime.text import MIMEText  # Import MIMEText for creating email content
 from sqlalchemy import create_engine  # Import create_engine for SQLAlchemy database connection
-from sqlalchemy.orm import sessionmaker  # Import sessionmaker for creating database sessions
+from sqlalchemy.orm import sessionmaker  # Import for creating database sessions
 from models import Competition, CompetitionPhoto, User  # Import models
 from config import Config
 import logging  # Import the logging module
@@ -13,14 +12,14 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-# Mailtrap configuration
+# Mailtrap configuration: You must get your own mailtrap testing/email credentials to make this functional. This is not functional as is.
 MAILTRAP_SMTP_SERVER = "sandbox.smtp.mailtrap.io"  # Mailtrap SMTP server address
 MAILTRAP_SMTP_PORT = 2525  # Mailtrap SMTP server port
-MAILTRAP_USERNAME = "***************"  # Mailtrap username
+MAILTRAP_USERNAME = "***************"  # Mailtrap username 
 MAILTRAP_PASSWORD = "**************"  # Mailtrap password
 MAILTRAP_SENDER = "Private Person <from@example.com>"  # Email sender information
 
-# Database configuration (replace with your database URL)
+# Database configuration (make sure this matches database URL)
 DATABASE_URL = Config.SQLALCHEMY_DATABASE_URI  # URL for your database connection
 
 # Create a database engine
@@ -78,12 +77,8 @@ def send_email(to_email, competition):
     body = f"Dear {to_email},\n\nCongratulations! You've won the {competition.name} competition!\n\nBest regards,\nThe Wildlife Photos Team"  # Email body
     message = f"Subject: {subject}\nTo: {receiver}\nFrom: {sender}\n\n{body}"  # Complete email message
     
-    
-    
-    
     message
            
-
     # Connect to the Mailtrap SMTP server and send the email
     try:
         with smtplib.SMTP(MAILTRAP_SMTP_SERVER, MAILTRAP_SMTP_PORT) as server:
@@ -97,10 +92,10 @@ def send_email(to_email, competition):
 # Create an instance of the BlockingScheduler
 scheduler = BlockingScheduler()
 # Add a job to the scheduler to run the check_closed_competitions function every 24 hours
-scheduler.add_job(check_closed_competitions, 'interval', hours=24)
+scheduler.add_job(check_closed_competitions, 'interval', seconds=24)
 
 logger.info("Running initial job execution...")
-check_closed_competitions()
+check_closed_competitions() #Run the check_closed_competitions upon start up testing purposes, should remove upon launch
 
 # Start the scheduler
 logger.info("Starting scheduler...")

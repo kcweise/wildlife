@@ -19,6 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//Dashboard tools for a users profile page
+
 function Dashboard() {
   const classes = useStyles();
 

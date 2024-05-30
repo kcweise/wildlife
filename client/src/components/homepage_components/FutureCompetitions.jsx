@@ -4,6 +4,7 @@ import { Card, CardContent, Typography, Button, Grid } from '@mui/material';
 import { useAuth } from "../../UserContext";
 import FCompPhotoDetail from './FCompPhotoDetail';
 
+//Renders all future competitions
 const FutureCompetitions = () => {
   
   const [competitions, setCompetitions] = useState([])

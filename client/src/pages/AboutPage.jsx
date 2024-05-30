@@ -10,12 +10,11 @@ const useStyles = makeStyles({
   backgroundImage: {
     width: '100%',
     height: '85vh',
-    backgroundImage: 'url(https://www.sulasula.com/wp-content/uploads/zaba_new.jpg)', // Replace with your actual image URL
+    backgroundImage: 'url(https://www.sulasula.com/wp-content/uploads/zaba_new.jpg)', 
     backgroundsize: 'cover',   
     backgroundPosition: '0 -200px', 
   },
   content: {
-    // maxWidth: "3000px", // Adjust max width as needed
     textAlign: 'center',
     padding: 0,
     fontWeight: 'bold',
@@ -24,8 +23,8 @@ const useStyles = makeStyles({
     maxWidth: 600,
     textAlign: 'center',
     padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.75)', // Semi-transparent white background
-    borderRadius: 0, // Optional: Add rounded corners for a nicer look
+    backgroundColor: 'rgba(255, 255, 255, 0.75)', 
+    borderRadius: 0, 
 
   },
 
@@ -35,7 +34,6 @@ const AboutPage = () => {
   const classes = useStyles();
 
   return (
-    // <ThemeProvider theme={theme}>
       <div className ={classes.backgroundImage} >
         <Container className={classes.contentContainer}>
           <Typography variant="h4" className={classes.title}>
@@ -50,8 +48,7 @@ const AboutPage = () => {
           </Typography>
         </Container>
       </div>
-    // </ThemeProvider>
-  );
+    );
 };
 
 export default AboutPage;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@material-ui/core';
-import { useAuth } from "../../UserContext";
 
+//Displays detailed photograph when clicked on.
 const PCompPhotoDetail = ({ photo, open, onClose }) => {
 
 
@@ -16,7 +16,7 @@ const PCompPhotoDetail = ({ photo, open, onClose }) => {
     return (
         <>
           <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
-            <DialogTitle>{photo.title ? photo.title : 'Untitled'}</DialogTitle>            
+            {/* <DialogTitle>{photo.photo.title ? photo.title : 'Untitled'}</DialogTitle>             */}
             <DialogContent style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               {photo && (
                 <img 

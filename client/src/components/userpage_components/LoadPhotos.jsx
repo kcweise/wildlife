@@ -8,6 +8,8 @@ import {
 import { useAuth } from '../../UserContext';
 import { useNavigate } from 'react-router-dom';
 
+//Handles adding a photo to a users profile.  A component in dashboard.
+
 function LoadPhotos() {
   
   const [title, setTitle] = useState('');

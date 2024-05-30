@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
-import { CssBaseline, Box, Toolbar, Container } from '@mui/material';
+import { CssBaseline, Box, Toolbar, Container, GlobalStyles } from '@mui/material';
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
@@ -19,6 +19,7 @@ import './App.css'
 function App() {
   return (
     <AuthProvider>
+      <GlobalStyles styles={{ body: { backgroundColor: 'Gray' }, html: { height: '100%' } }} />
       <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '5vh' }}>
         <CssBaseline />
         <NavBar />
@@ -26,7 +27,8 @@ function App() {
           component="main"
           sx={{
             flexGrow: 1,
-            mt: -3, // Adjust this margin to match the height of the navbar            
+            mt: -3, // Adjusted to match the height of the navbar
+                   
           }}
         >
           <Container>

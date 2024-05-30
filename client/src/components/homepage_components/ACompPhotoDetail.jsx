@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@material-ui/core';
 import { useAuth } from "../../UserContext";
 
+
+// Renders all active competitions on home page
 const ACompPhotoDetail = ({ photo, open, onClose, onVote, isLoggedIn }) => {
   const [hasVotedRecently, setHasVotedRecently]=useState(false);
   const [alreadyVotedDialogOpen, setAlreadyVotedDialogOpen] = useState(false);

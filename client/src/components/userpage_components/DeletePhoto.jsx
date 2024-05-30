@@ -3,6 +3,8 @@ import { Button } from '@material-ui/core';
 import { useAuth } from '../../UserContext';
 import { useNavigate } from 'react-router-dom';
 
+
+//Handles a delete of a user photo.
 const DeletePhoto = ({ photoId, onClose }) => {
   const { login } = useAuth();
   const navigate = useNavigate();

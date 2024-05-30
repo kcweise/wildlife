@@ -1,9 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { Profiler, useState } from 'react';
 import { Container, Grid, Card, CardMedia, CardContent, Typography, Button } from '@material-ui/core';
 import { useAuth } from '../../UserContext';
 import PhotoDetail from './PhotoDetail';
+import Dashboard from './Dashboard';
 
+
+// Renders all photos a user has into the user Display photos. A component in Dashboard.
 const Photos = () => {
   const { user } = useAuth();
   const [selectedPhoto, setSelectedPhoto] = useState(false);

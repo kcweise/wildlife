@@ -5,6 +5,8 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions,
 import { useAuth } from '../../UserContext';
 import { useNavigate } from 'react-router-dom';
 
+
+//Handles entering a photo in a competition.  A component in dashboard.
 const EnterCompetition = ({ photo, onClose }) => {
   const { login, user } = useAuth();
   const [open, setOpen] = useState(false);

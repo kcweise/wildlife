@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@material-ui/core';
-import { useAuth } from "../../UserContext";
 
+//Renders photo detail
 const FCompPhotoDetail = ({ photo, open, onClose }) => {
 
 
